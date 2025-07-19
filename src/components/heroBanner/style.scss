@@ -1,0 +1,299 @@
+@import "react-image-gallery/styles/css/image-gallery.css";
+
+
+    .view-detail-book{
+        
+        .original-image,
+        .thumbnail-image {
+            cursor: pointer;
+        }
+    
+       .title {
+        margin: 5px 0;
+        color: #242424;
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 32px;
+        word-break: break-word;
+    }
+
+    .rating {
+        display: flex;
+        margin: 10px 0;
+    }
+
+    .price {
+        border-radius: 4px;
+        background-color: rgb(250, 250, 250);
+        padding: 25px;
+        margin-bottom: 20px;
+
+        .currency {
+            font-size: 32px;
+            line-height: 40px;
+            margin-right: 8px;
+            font-weight: 500;
+            color: #ee4d2d;
+        }
+    }
+
+    .delivery {
+        padding: 10px 0;
+    }
+
+    .quantity {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+
+        .delivery-right {
+            display: flex;
+
+            input {
+                width: 50px;
+                height: 32px;
+                border-left: 0;
+                border-right: 0;
+                font-size: 16px;
+                font-weight: 400;
+                box-sizing: border-box;
+                text-align: center;
+                cursor: text;
+                border-radius: 0;
+                border: 1px solid rgba(0, 0, 0, 0.09);
+                outline: none;
+            }
+
+            button {
+                outline: none;
+                cursor: pointer;
+                border: 0;
+                font-size: .875rem;
+                font-weight: 300;
+                line-height: 1;
+                letter-spacing: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color .1s cubic-bezier(.4, 0, .6, 1);
+                border: 1px solid rgba(0, 0, 0, .09);
+                border-radius: 2px;
+                background: transparent;
+                color: rgba(0, 0, 0, .8);
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+
+    .delivery-left {
+        color: #757575;
+        width: 110px;
+        text-transform: capitalize;
+        display: inline-block;
+    }
+
+    .buy {
+        display: flex;
+        gap: 20px;
+        padding: 20px 0;
+
+        button {
+            overflow: visible;
+            outline: 0;
+            background: #ff57221a;
+            color: #ee4d2d;
+            border: 1px solid #ee4d2d;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .03);
+            cursor: pointer;
+            border-radius: 3px;
+
+            font-size: 16px;
+            height: 48px;
+            padding: 0 20px;
+
+            &.now {
+                color: #fff;
+                position: relative;
+                overflow: visible;
+                outline: 0;
+                background: #ee4d2d;
+            }
+        }
+
+        .cart {
+            &:hover {
+                background: #ffc5b22e;
+            }
+
+            span {
+                padding-left: 5px;
+            }
+        }
+
+        .now {
+            &:hover {
+                background: #f05d40;
+            }
+        }
+    }
+
+       
+       
+   }
+   
+
+
+.modal-gallery {
+    .active {
+        border: 2px solid #ee4d2d;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        box-sizing: border-box;
+        top: 0;
+    }
+
+    .img-normal {
+        cursor: pointer;
+    }
+}
+.image-gallery-thumbnail-image  {
+  display: none !important;
+  border: none !important;
+ 
+}
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:focus{
+    // border: 2px solid #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+   
+}
+// .image-gallery-thumbnail-image .buttons {
+//     display: none !important;
+//     border: none !important;
+// }
+// .buttons {
+//     display: none !important;
+// }
+// .image-gallery-thumbnail{
+//     border: 1px solid #ddd ;
+// }
+// .image-gallery-bullets-container button {
+//     border-radius: 0%;
+// }
+
+.image-gallery-bullets .image-gallery-bullet {
+    border: none !important;
+    border-radius: 40%;
+    padding-left: 10px;
+    background-color: rgb(219, 241, 89);
+    animation: default 1s ease-in-out ;
+
+     
+}
+.image-gallery-bullets .image-gallery-bullet.active {
+    background-color: rgb(34, 197, 94);
+    width: 30px;
+    height: 10px;
+}
+.image-gallery-image{
+    // border-top-left-radius:10px ;
+    // border-top-right-radius:10px;
+    // border-bottom-left-radius:10px;
+    // border-bottom-right-radius:10px;
+    // width: 700px;
+
+}
+.image-gallery-icon polyline {
+    width: 100px;
+    height: 10px;
+    
+}
+.image-gallery-svg polyline {
+    width: 10px;
+    height: 10px;
+}
+/* Giảm kích thước nút điều hướng */
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg {
+    width: 30px; /* Giảm kích thước nút điều hướng */
+    height: 30px; /* Giảm kích thước nút điều hướng */
+    // border-radius: 50%;
+    
+    // border: 1px solid #ddd;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+   
+   
+
+}
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg{
+    display: flex;
+    justify-content: space-between;
+}
+.image-gallery-left-nav, .image-gallery-right-nav{
+    padding: 0%;
+    // position: absolute;
+}
+.image-gallery-left-nav .image-gallery-svg {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-top:20px ;
+    padding-bottom:20px;
+  background-color: rgba(0, 0, 0, 0.3); /* Đen với độ trong suốt 50% */
+    
+
+}
+.image-gallery-right-nav .image-gallery-svg {
+    padding-top:20px ;
+    padding-bottom:20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.3); /* Đen với độ trong suốt 50% */
+
+
+}
+
+.image-gallery-right-nav .image-gallery-svg {
+    margin-left: 500px;
+}
+.image-gallery-svg polyline {
+    padding-top: 50px;
+
+}
+
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg {
+    width: 30px; /* Giảm kích thước nút điều hướng */
+    height: 100%; /* Giảm kích thước nút điều hướng */
+    // background-color: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.image-gallery-left-nav .image-gallery-image{
+    border-top-right-radius: 50px;
+    background-color: #fff;
+}
+.view-detail-book{
+ 
+}
+
+.image-gallery {
+    
+    margin: 0 auto;
+    max-width: 100%;
+    height: 100%;
+    .image-gallery-image {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.image-gallery-thumbnails{
+    padding: 0%;
+    padding-left: 5px;
+}
+
+.image-gallery , .image-gallery-image button , .image-gallery-left-nav .image-gallery-svg .image-gallery-right-nav .image-gallery-svg {
+    width: 1005px;
+    padding-left: 39px;
+ object-fit: cover;
+}

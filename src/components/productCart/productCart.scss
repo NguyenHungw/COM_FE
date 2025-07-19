@@ -1,0 +1,187 @@
+
+    
+    // .customize-row {
+    //     display: flex;
+    //     flex-wrap: wrap;
+    //     gap: 20px 10px; //gap 10px, có 5 items trên 1 row => 4*10 = 40px cần được bớt ở width. 40/5items = 8px => calc trừ đi 8px
+
+    //     .column {
+    //         width: calc(20% - 8px);
+
+    //         &:hover {
+    //             box-shadow: 0 0.0625rem 20px 0 rgba(0, 0, 0, .05);
+    //             -webkit-transform: translateY(-0.0625rem);
+    //             transform: translateY(-0.0625rem);
+    //         }
+
+    //         .wrapper {
+    //             cursor: pointer;
+    //             box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, .1);
+    //             border-radius: 0.125rem;
+    //             padding: .3rem;
+
+    //             .text {
+    //                 padding: 0.5rem 0;
+    //                 font-size: .75rem;
+    //                 height: 50px;
+    //                 display: -webkit-box;
+    //                 -webkit-line-clamp: 2;
+    //                 -webkit-box-orient: vertical;
+    //                 overflow: hidden;
+    //                 text-overflow: ellipsis;
+    //             }
+
+    //             .rating {
+    //                 display: flex;
+    //                 align-items: center;
+    //                 gap: 10px;
+    //             }
+
+    //         }
+    //     }
+
+
+    //     .thumbnail {
+    //         max-height: 200px;
+    //         max-width: 200px;
+    //         margin: 0 auto;
+
+    //         img {
+    //             max-width: 100%;
+    //             max-height: 100%;
+    //             background-color: white;
+    //             object-fit: contain;
+    //         }
+    //     }
+
+    //     @media screen and (max-width: 600px) {
+    //         .column {
+    //             flex: unset;
+    //             width: calc(50% - 8px);
+    //             flex-wrap: wrap;
+    //         }
+    //     }
+
+    //     @media screen and (max-width: 800px) and (min-width: 601px) {
+    //         .column {
+    //             flex: unset;
+    //             width: calc(25% - 8px);
+    //             flex-wrap: wrap;
+    //         }
+    //     }
+    // }
+
+
+.customize-row {
+    
+    width: 966px; /* Giới hạn chiều rộng */
+    height: 820px;
+    margin: 0 auto; /* Căn giữa container theo chiều ngang */
+    border: 1px solid #eee; 
+    background: radial-gradient(159.85% 367.97% at 150% 123.85%, #ffe147 0, #7fcf2a 38.76%, #469c4b 59.65%, #71e662 100%);
+    color: white;
+    margin-right: 355px;
+   
+}
+.header-row-main{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 30px;
+    .header-row-left{
+        flex: 1;
+    }
+    .header-row-right{
+        flex: 1;
+    }
+}
+
+
+.product-list {
+    display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); // tự động co giãn cột
+    // justify-content: flex-start;
+      row-gap: 10px; /* ← khoảng cách giữa các hàng */
+      column-gap:10px ;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.product-card {
+//   display: flex; /* Dùng flexbox để dàn hàng ngang */
+//   gap: 0px; /* Khoảng cách giữa các ảnh */
+//   box-shadow: 2px 2px 5px rgb(0, 0, 0);
+   background-color: white;
+        // width: 177px;
+        width: 100%;
+        height: 356px;
+        // border: 1px solid red;
+        border-radius: 5px;
+        margin: 0;
+         transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm transition để làm cho hiệu ứng mượt mà */
+    
+    &:hover {
+        box-shadow: 0 0.0625rem 50px 0 rgba(0, 0, 0, .1);
+        transform: translateY(-0.5rem) scale(1.05); /* Thêm hiệu ứng zoom nhẹ */
+    }
+  
+  .column {
+    // border: 1px solid red;
+    // margin-right: 10px;
+    // display: flex;
+    // flex-direction: column; /* Nếu bạn muốn các phần tử trong mỗi column nằm dọc */
+    // align-items: center; /* Căn giữa các phần tử theo chiều ngang */
+    // justify-content: center; /* Căn giữa các phần tử theo chiều dọc */
+  
+
+
+    .wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 300px;
+        
+    //   text-align: center; /* Căn giữa nội dung trong wrapper */
+      .text {
+        color: black;
+        flex-basis: 100%;
+        font-size: large;
+      }
+      .price{
+        font-weight: bold;
+        font-size: x-large;
+        color: rgb(243, 0, 0);
+        // flex-basis: 100%;
+                // justify-content: flex-start;
+
+      }
+      .oldPrice{
+        color: gray;
+        text-decoration: line-through;
+        // background-color: #469c4b;
+      }
+      .rating{
+        color: gold;
+        // flex-basis: 100%;
+        
+        width: 100%;
+        justify-content: space-between;
+      }
+      .thumbnail {
+        width: 100%; /* Hình ảnh chiếm 100% chiều rộng của container */
+        height: auto;
+        
+        img {
+          width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng của thumbnail */
+          height: 200px;
+        //   max-width: 150px; /* Chiều rộng tối đa */
+          object-fit: cover; /* Giữ tỉ lệ hình ảnh */
+          border-radius: 10px;
+          
+        }
+      }
+    }
+  }
+  
+}
