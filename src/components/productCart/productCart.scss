@@ -1,104 +1,118 @@
 
-    
-    // .customize-row {
-    //     display: flex;
-    //     flex-wrap: wrap;
-    //     gap: 20px 10px; //gap 10px, có 5 items trên 1 row => 4*10 = 40px cần được bớt ở width. 40/5items = 8px => calc trừ đi 8px
-
-    //     .column {
-    //         width: calc(20% - 8px);
-
-    //         &:hover {
-    //             box-shadow: 0 0.0625rem 20px 0 rgba(0, 0, 0, .05);
-    //             -webkit-transform: translateY(-0.0625rem);
-    //             transform: translateY(-0.0625rem);
-    //         }
-
-    //         .wrapper {
-    //             cursor: pointer;
-    //             box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, .1);
-    //             border-radius: 0.125rem;
-    //             padding: .3rem;
-
-    //             .text {
-    //                 padding: 0.5rem 0;
-    //                 font-size: .75rem;
-    //                 height: 50px;
-    //                 display: -webkit-box;
-    //                 -webkit-line-clamp: 2;
-    //                 -webkit-box-orient: vertical;
-    //                 overflow: hidden;
-    //                 text-overflow: ellipsis;
-    //             }
-
-    //             .rating {
-    //                 display: flex;
-    //                 align-items: center;
-    //                 gap: 10px;
-    //             }
-
-    //         }
-    //     }
-
-
-    //     .thumbnail {
-    //         max-height: 200px;
-    //         max-width: 200px;
-    //         margin: 0 auto;
-
-    //         img {
-    //             max-width: 100%;
-    //             max-height: 100%;
-    //             background-color: white;
-    //             object-fit: contain;
-    //         }
-    //     }
-
-    //     @media screen and (max-width: 600px) {
-    //         .column {
-    //             flex: unset;
-    //             width: calc(50% - 8px);
-    //             flex-wrap: wrap;
-    //         }
-    //     }
-
-    //     @media screen and (max-width: 800px) and (min-width: 601px) {
-    //         .column {
-    //             flex: unset;
-    //             width: calc(25% - 8px);
-    //             flex-wrap: wrap;
-    //         }
-    //     }
-    // }
-
-
 .customize-row {
     
     width: 966px; /* Giới hạn chiều rộng */
+        // width: 100; /* Giới hạn chiều rộng */
+
     height: 820px;
     margin: 0 auto; /* Căn giữa container theo chiều ngang */
     border: 1px solid #eee; 
     background: radial-gradient(159.85% 367.97% at 150% 123.85%, #ffe147 0, #7fcf2a 38.76%, #469c4b 59.65%, #71e662 100%);
+// background-image: url('../../assets/bgc.png');
     color: white;
-    margin-right: 355px;
-   
+    // margin-right: 355px;
+    align-items: center;
+    justify-content: center;   
+  
 }
 .header-row-main{
     display: flex;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: space-evenly;
+    // width: 100%;
+    max-width: 966px;
     font-size: 30px;
+    margin-top: 10px;
+    margin-left: 20px;
     .header-row-left{
         flex: 1;
     }
     .header-row-right{
-        flex: 1;
-    }
-}
+              // background-color: white;
 
+        // flex: 1;
+        // padding-left: 50px;
+        border: 2px solid red;
+        border-radius: 10px;
+         display: flex;
+         gap: 0; // nếu không muốn có khoảng cách
+         background-color: white;
+         padding: 2px;
+         .button-right{
+          
+          text-transform: uppercase;
+           &:hover {
+          background-color: rgb(245, 71, 71);
+                    background: linear-gradient(90deg,rgba(253, 134, 29, 1) 0%, rgba(252, 176, 69, 1) 42%);
+
+        }
+      }
+           .button-middle{
+            text-transform: uppercase;
+            
+            .time1{
+              
+              // border: 1px solid black;
+              background-color: #FF7101;
+              border-radius: 5px;
+              width: 25px;
+              height: 25px;
+                display: flex;
+    justify-content: center;
+    align-items: center;
+            }
+         
+            .time2{
+              border: 1px solid black;
+              width: 25px;
+              height: 25px;
+                display: flex;
+    justify-content: center;
+    align-items: center;
+            }
+            .time3{
+              border: 1px solid black;
+              width: 25px;
+              height: 25px;
+                display: flex;
+    justify-content: center;
+    align-items: center;
+            }
+          &:hover {
+          background-color: rgb(245, 71, 71);
+                    background: linear-gradient(90deg,rgba(253, 134, 29, 1) 0%, rgba(252, 176, 69, 1) 42%);
+             
+                    
+
+        }
+      }
+        .button-left{
+          text-transform: uppercase;
+          color: rgb(0, 0, 0);
+           &:hover {
+          background: linear-gradient(90deg,rgba(253, 134, 29, 1) 0%, rgba(252, 176, 69, 1) 42%);
+         
+        }
+         }
+   
+
+        button{
+          font-size: 20px;
+          border: none;
+           vertical-align: top; // hoặc top
+           &:hover{
+            color: none;
+           }
+          
+
+        }
+        
+    }
+    
+}
 
 .product-list {
     display: grid;
+    min-height: 650px;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); // tự động co giãn cột
     // justify-content: flex-start;
       row-gap: 10px; /* ← khoảng cách giữa các hàng */
@@ -109,14 +123,11 @@
 }
 
 .product-card {
-//   display: flex; /* Dùng flexbox để dàn hàng ngang */
-//   gap: 0px; /* Khoảng cách giữa các ảnh */
-//   box-shadow: 2px 2px 5px rgb(0, 0, 0);
    background-color: white;
         // width: 177px;
         width: 100%;
-        height: 356px;
-        // border: 1px solid red;
+        height: 320px;
+        border: 1px solid rgb(7, 7, 7,0.5);
         border-radius: 5px;
         margin: 0;
          transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm transition để làm cho hiệu ứng mượt mà */
@@ -127,22 +138,12 @@
     }
   
   .column {
-    // border: 1px solid red;
-    // margin-right: 10px;
-    // display: flex;
-    // flex-direction: column; /* Nếu bạn muốn các phần tử trong mỗi column nằm dọc */
-    // align-items: center; /* Căn giữa các phần tử theo chiều ngang */
-    // justify-content: center; /* Căn giữa các phần tử theo chiều dọc */
-  
-
-
     .wrapper {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
         height: 300px;
         
-    //   text-align: center; /* Căn giữa nội dung trong wrapper */
       .text {
         color: black;
         flex-basis: 100%;
@@ -164,9 +165,11 @@
       .rating{
         color: gold;
         // flex-basis: 100%;
-        
+        padding-left: 5px;
+        // margin-top: 50px;
         width: 100%;
         justify-content: space-between;
+        
       }
       .thumbnail {
         width: 100%; /* Hình ảnh chiếm 100% chiều rộng của container */
@@ -177,11 +180,61 @@
           height: 200px;
         //   max-width: 150px; /* Chiều rộng tối đa */
           object-fit: cover; /* Giữ tỉ lệ hình ảnh */
-          border-radius: 10px;
+        border-radius: 5px;
           
         }
       }
     }
   }
   
+}
+
+.button-left,
+.button-middle,
+.button-right {
+        font-weight: bold;
+  color: black;/* Màu chữ mặc định */
+  background-color: white !important; /* hoặc màu nền bạn muốn */
+ 
+  &:hover {
+    color: rgb(253, 253, 253) !important; /* Không đổi màu khi hover */
+    background-color: white !important; /* Không đổi nền khi hover */
+    border-color: #d9d9d9 !important; /* Không đổi viền */
+    box-shadow: none !important; /* Tắt bóng */
+     .time1{
+          background-color: white !important; /* Không đổi nền khi hover */
+          color: red;
+
+    }
+  }
+}
+
+ .time1 {
+      background-color: #FF7101;
+      border-radius: 5px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .time1:hover {
+      background-color: #fcfcfc;
+    }
+
+    .pageination-space{
+      width: 100px;
+      border: 1px solid red;
+      margin-top: 100px;
+    }  
+
+    .pagination-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }

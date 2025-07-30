@@ -1,0 +1,21 @@
+.breadcrumb-container {
+  width: 200px;
+  border: 1px solid red;
+  z-index: 1000;
+  background-color: #202b03;
+  // padding-top: 100px 0;
+  margin-top: 100px;
+  text-align: center;
+  background-color: black;
+}
+
+.breadcrumb-container .ant-breadcrumb {
+  display: inline-block;
+  font-weight: bold;
+  color: white;
+}
+
+.breadcrumb-container .ant-breadcrumb a {
+  color: white;
+  text-decoration: none;
+}

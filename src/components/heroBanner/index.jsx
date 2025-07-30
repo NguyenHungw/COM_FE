@@ -12,6 +12,7 @@ const HeroBanner = () =>{
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const refGallery = useRef(null);
+  
   const handleOnClickImage = () =>{
     //xử lý khi click vào ảnh slide
     setIsOpenModalGallery(true); // mở modal
@@ -22,92 +23,67 @@ const HeroBanner = () =>{
   }
     const images = [
         {
-          original: "https://picsum.photos/id/1018/1000/600/",
+          original: "https://i0.wp.com/comdo.vn/wp-content/uploads/2024/09/1-7.jpg?w=1920&ssl=1",
           thumbnail: "https://picsum.photos/id/1018/250/150/",
           originalClass: "original-image",
           thumbnailClass: "thumbnail-image"
         },
         {
-          original: "https://picsum.photos/id/1015/1000/600/",
+          original: "https://i0.wp.com/comdo.vn/wp-content/uploads/2024/09/3-6.jpg?w=1920&ssl=1",
           thumbnail: "https://picsum.photos/id/1015/250/150/",
           originalClass: "original-image",
           thumbnailClass: "thumbnail-image"
         },
         {
-            original: "https://picsum.photos/id/1018/1000/600/",
+            original: "https://i0.wp.com/comdo.vn/wp-content/uploads/2024/09/2-6.jpg?w=1920&ssl=1",
             thumbnail: "https://picsum.photos/id/1018/250/150/",
             originalClass: "original-image",
             thumbnailClass: "thumbnail-image"
-          },
-        {
-          original: "https://picsum.photos/id/1019/1000/600/",
-          thumbnail: "https://picsum.photos/id/1019/250/150/",
-          originalClass: "original-image",
-          thumbnailClass: "thumbnail-image"
-        },
-        {
-            original: "https://picsum.photos/id/1018/1000/600/",
-            thumbnail: "https://picsum.photos/id/1018/250/150/",
-            originalClass: "original-image",
-            thumbnailClass: "thumbnail-image"
-          },
+          } 
      
       ];
     return( 
      
-      <div style={{ background: '#efefef', padding: "0px 0" }}>
-        <div className='hero-banner' style={{ padding: "0px 0" ,maxWidth: 1200, margin: "0 auto"}}>
+      <div style={{  }}>
+        <div className='hero-banner' style={{ padding: "0px",maxWidth: 1200, margin: "0 auto"}}>
          
   <div className="hero-content-banner" >
-          <div style={{ padding: "0px", background: '#fff', borderRadius: 5 }}>
+          {/* <div style={{ padding: "0px", borderRadius: 5 }}> */}
               { <Row gutter={[0, 0]}>
-                  <Col md={21} sm={7} xs={5} className="image-gallery" order={2}>
+                  <Col md={24} sm={7} xs={5} className="image-gallery" order={2} >
                       <ImageGallery
+                      disableSwipe={false} 
                           ref={refGallery} // chuyền ref để lấy current index trong slide để truyền tới modal
                           items={images}
                           showPlayButton={false} //hide play button
                           showFullscreenButton={false} //hide fullscreen button
-                          // renderLeftNav={() => <></>} //left arrow === <> </>
-                          // renderRightNav={() => <></>}//right arrow === <> </>
-                          slideOnThumbnailOver={true}  //onHover => auto scroll images
+                     showThumbnails={false}//tắt thumb bên dưới
+                          slideOnThumbnailOver={false}
                           showBullets={true} //hide bullets
                           slideInterval={5000}
-                          slideDuration={0}
-                        //   infinite = {true}
-                        //   lazyLoad={true}
-                          autoPlay={true}
+                           swipeThreshold={100}          // Vuốt ít nhất 30% chiều rộng slide
+                           enableSwipe={true}  
+                           slideDuration={500} // ✅ hiệu ứng trượt mượt
+                  autoPlay={false} // ✅ tắt autoPlay để dễ kiểm tra kéo tay
+                  swipingTransitionDuration={10}
                           showNav={true}
+                            onClick={() => {}} // Tắt sự kiện click
+
+                           onSlide={(index) => {
+                          console.log("Người dùng vừa kéo/chuyển tới ảnh:", index);
+                          setCurrentIndex(index);
+                        }}
                          
-                        //   interval={5000}
-                          
-                          //  onClick={() => handleOnClickImage()}
+                
                       />
                   </Col>
-                  {/* <Col md={14} sm={24}>
-                       <Col md={0} sm={24} xs={24}>
-                          <ImageGallery
-                              // ref={refGallery}
-                              items={images}
-                              showPlayButton={false} //hide play button
-                              showFullscreenButton={false} //hide fullscreen button
-                              renderLeftNav={() => <></>} //left arrow === <> </>
-                              renderRightNav={() => <></>}//right arrow === <> </>
-                              
-                              
-                          />
-                          
-                      </Col>
-                      
-                  </Col> */}
-                  <Col md={3} sm={10} xs={19} order={1}>
+         
+                  {/* <Col md={3} sm={10} xs={19} order={1}>
                       <div className="hero-content" style={{ height: '100%',width:'230px'}  }>
-                          
                       </div>
-                      </Col>
-                  
+                      </Col> */}
               </Row> } 
-             
-          </div>
+          {/* </div> */}
       </div>
       </div>
       <ModalGallery

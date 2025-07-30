@@ -2,14 +2,56 @@
 
 import axios from "./axios.customize";
 
+const callFetchAccount = () => {
+    
+    const URL_BACKEND = '/api/Google/me';
+
+    return axios.get(URL_BACKEND)
+}
+
+const cartAPI = (id) => {
+    const URL_BACKEND = `api/GioHang/DSGioHangUser`+id;
+    return axios.get(URL_BACKEND)
+}
+const loginNormalAPI = (name,password) =>{
+     // ✅ Chấp nhận tất cả status code, không throw lỗi
+    validateStatus: () => true
+    const URL_BACKEND = "/api/TaiKhoan/login";
+
+        
+    // Tạo đối tượng dữ liệu để gửi lên API
+    const data = {
+        email: name,
+        password: password
+    };
+    
+    // Gửi dữ liệu dưới dạng JSON
+    return axios.post(URL_BACKEND, data, {
+        headers: {
+            'Content-Type': 'application/json', // Đảm bảo gửi dữ liệu dưới dạng JSON
+        }
+    });
+}
+const getInfoAcessAPI = () =>{
+    const URL_BACKEND = "/api/Google/me";
+    return axios.get(URL_BACKEND);
+}
+const getloginGoogleAPI = () => {
+    const URL_BACKEND = "/api/Google/login-google";
+    return axios.get(URL_BACKEND);
+ 
+}
 
 const getProductsAPI = (query) => {
-    const URL_BACKEND = `/api/SanPham/DSSanPhamTrangChu?page=`+query;
+    const URL_BACKEND = `/api/SanPham/DSSanPhamTrangChuTotal?`+query;
 
 return axios.get(URL_BACKEND)
 }
 //
-
+const readCookies = async() =>{
+    const URL_BACKEND = "api/Google/me";
+    return axios.get(URL_BACKEND)
+}
 const loginUserAPI = (username, password) => {
     const URL_BACKEND = "/api/v1/auth/login";
     const data = {
@@ -52,9 +94,7 @@ const getAllUserYesPage = (query) => {
     return axios.get(URL_BACKEND)
 
 }
-const callFetchAccount = () => {
-    return axios.get('/api/v1/auth/account')
-}
+
 const callLogOutAccount = () => {
     return axios.post('/api/v1/auth/logout')
 }
@@ -127,5 +167,6 @@ const updateBook = (id,thumbnail,slider,mainText,author,price,sold,quantity,cate
     return axios.put(`/api/v1/book/${id}`,data)
 }
 
-export {loginUserAPI,registerUserAPI,callFetchAccount,callLogOutAccount,getAllUserNoPage,getAllUserYesPage,deleteUserById,AddUserAPI
-,addListUserBulk,updateUser,getAllBooksYesPage,getBookCategory,uploadImg,deleteBookById,AddBookAPI,updateBook,getProductsAPI}
+export {loginUserAPI,registerUserAPI,callLogOutAccount,getAllUserNoPage,getAllUserYesPage,deleteUserById,AddUserAPI
+,addListUserBulk,updateUser,getAllBooksYesPage,getBookCategory,uploadImg,deleteBookById,AddBookAPI,updateBook,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
+,loginNormalAPI,cartAPI,callFetchAccount}

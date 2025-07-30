@@ -1,7 +1,7 @@
+import { notification } from "antd";
 import axios from "axios";
 
 const NO_RETRY_HEADER = 'x-no-retry'
-
 const instance = axios.create({
     baseURL:  import.meta.env.VITE_BACKEND_URL,
     withCredentials: true
@@ -9,11 +9,13 @@ const instance = axios.create({
   });
 
  
-  instance.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('access_token')}`}
+   instance.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('access_token')}`}
+
+
 
   const handleRefreshToken = async ()=>{
-    const res = await instance.get('/api/v1/auth/refresh')
-    if(res&&res.data) return res.data.access_token
+    const res = await instance.get('/api/TaiKhoan/refresh')
+    if(res&&res.data) return res.data.token
     else return null;
   }
 
@@ -37,41 +39,62 @@ const instance = axios.create({
     return Promise.reject(error);
    });
 
+   
+     
+
+
    // Add a response interceptor
 instance.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+
     if(response.data && response.data.data) return response.data
     return response;
   },async function (error) {
-    
+          //  console.log('check retryxxxxxxxxxxxxxxxxxxxxxxxxxxxx',error.config._retry)
+           const originalRequest = error.config;
+
    //gán lại refresh
       if (error.config 
         && error.response 
         && +error.response.status === 401 
-        &&!error.config.headers[NO_RETRY_HEADER] ) {
+        &&!error.config._retry
+        &&!error.config.headers[NO_RETRY_HEADER]
+      ) {
         const access_token = await handleRefreshToken()
+        //  console.log("Before retry, _retry:", originalRequest._retry);
+error.config._retry = true; 
         error.config.headers[NO_RETRY_HEADER] = 'true' // string val only
         // mặc định NO_RETRY_HEADER ko được gán thì sẽ = null hoặc undifine
 
+        notification.success({
+          message:'RefreshToken',
+          description:"refresh token thành công"
+        });
         if(access_token){
 
           error.config.headers['Authorization'] = `Bearer ${access_token}`;
+          
+          // error.config.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
           localStorage.setItem('access_token',access_token)
           return instance.request(error.config);
         }
        
       }
 
+      console.log('check error log',error.config.url)
 
       //check hết hạn
       if (error.config 
         && error.response 
         && +error.response.status === 400
-        && error.config.url=== '/api/v1/auth/refresh' 
+        && error.config.url=== '/api/TaiKhoan/refresh' 
       ){
+        
         //check neeus ko phai nhung duong dan nay thi moi check refresh token
-        const validPaths = ['/','/book','/contact','/ErrorPage','/book/:slug','/test'];
+        // const validPaths = ['/','/book','/contact','/ErrorPage','/book/:slug','/test'];
+        
+        const validPaths = ['/book','/contact','/ErrorPage','/book/:slug','/test'];
 
         const bookRegex = /^\/book\/[^/]+$/; // Regex kiểm tra đường dẫn dạng /book/slug
 
