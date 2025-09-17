@@ -9,10 +9,6 @@ const CartDrawer = ({ openCart, setOpenCart }) => {
   
    console.log('check user',user)
     // const role = user.role;
-
-   
-   
-   
      const fetchCartAPI = async (user) =>{
       const res = await cartAPI(user);
       console.log('res',res)
@@ -20,7 +16,7 @@ const CartDrawer = ({ openCart, setOpenCart }) => {
         setListProduct(res?.data)
       }
     }
-
+    
     useEffect(() => {
   if (user) {
     //  if (!userId) return;
@@ -28,16 +24,13 @@ const CartDrawer = ({ openCart, setOpenCart }) => {
   }
 }, []);
 
-
     console.log('listProduct',listProduct)
 
-   
   return (
     <>
-   
-      <Button type="primary" onClick={openCart}>
+      {/* <Button type="primary" onClick={openCart}>
         Open
-      </Button>
+      </Button> */}
       <Drawer
         title="Giỏ Hàng"
         width={400}

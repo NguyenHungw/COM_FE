@@ -10,20 +10,31 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^44.3.0",
+    "@ckeditor/ckeditor5-react": "^11.0.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@reduxjs/toolkit": "1.9.7",
     "antd": "^5.26.5",
     "axios": "^1.10.0",
+    "com-app": "file:",
+    "moment": "^2.30.1",
+    "quill": "^2.0.3",
     "react": "18.3.1",
+    "react-apexcharts": "^1.7.0",
+    "react-countup": "^6.5.3",
     "react-dom": "18.3.1",
     "react-icons": "^5.5.0",
     "react-image-gallery": "^1.4.0",
+    "react-quill": "^2.0.0",
     "react-redux": "8.1.3",
     "react-router-dom": "^7.7.0",
     "react-slick": "^0.30.3",
+    "react-spinners": "^0.17.0",
     "sass": "^1.89.2",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.2.10"
+    "styled-components": "^6.1.19",
+    "swiper": "^11.2.10",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/js": "9.30.1",
@@ -35,6 +46,6 @@
     "eslint-plugin-react-refresh": "0.4.20",
     "globals": "16.3.0",
     "sass-embedded": "^1.89.2",
-    "vite": "7.0.4"
+    "vite": "^4.5.0"
   }
 }

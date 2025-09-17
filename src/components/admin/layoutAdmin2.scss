@@ -1,0 +1,48 @@
+*{
+    // z-index: 0;
+    margin: 0;
+    padding: 0;
+    // background-color: #F5F5F5;
+    // background-color: ;
+}
+body{
+    
+    // background-color: #F5F5F5;
+    //  background-image: url('../../assets/wallpap.jpeg');
+}
+.admin-header{
+    display: flex;
+    justify-content: space-between;
+    .left-child{
+
+    }
+     .right-child{
+        margin-right: 25px;
+    }
+}
+
+.menu-second{
+    
+    min-height: 80px;
+    display: flex;
+    justify-content: space-around;
+    
+
+    .left-content{
+        gap: 50px;
+        display: flex;
+        align-items: center;
+        // height: 80;
+    }
+    .right-content{
+        gap: 10px;
+        margin-right: 50px;
+                align-items: center;
+
+        display: flex;
+    }
+}
+
+.no-radius .ant-select-selector{
+    border-radius: 0 !important;
+}

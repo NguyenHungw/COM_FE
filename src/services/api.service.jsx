@@ -14,8 +14,8 @@ const cartAPI = (id) => {
     return axios.get(URL_BACKEND)
 }
 const loginNormalAPI = (name,password) =>{
-     // ✅ Chấp nhận tất cả status code, không throw lỗi
-    validateStatus: () => true
+   
+    // validateStatus: () => true
     const URL_BACKEND = "/api/TaiKhoan/login";
 
         
@@ -47,6 +47,13 @@ const getProductsAPI = (query) => {
 
 return axios.get(URL_BACKEND)
 }
+
+
+const getProductsAdminAPI = (query) => {
+    const URL_BACKEND = `/api/SanPham/DSSanPhamAdmin?`+query;
+
+return axios.get(URL_BACKEND)
+}
 //
 const readCookies = async() =>{
     const URL_BACKEND = "api/Google/me";
@@ -63,110 +70,45 @@ const loginUserAPI = (username, password) => {
     }
     return axios.post(URL_BACKEND, data)
 }
-const registerUserAPI = (fullname,email,password,phone) => {
-    const URL_BACKEND = "/api/v1/user/register";
-    const data = {
-        fullName:fullname,
-        email:email,
-        password:password,
-        phone:phone
-    }
-    return axios.post(URL_BACKEND,data)
-}
-const AddUserAPI = (fullname,password,email,phone) => {
-    const URL_BACKEND = "/api/v1/user";
-    const data = {
-        fullName:fullname,
-        
-        password:password,
-        email:email,
-        phone:phone
-    }
-    return axios.post(URL_BACKEND,data)
-}
-const getAllUserNoPage = () => {
-    const URL_BACKEND = "/api/v1/user";
-    return axios.get(URL_BACKEND)
 
-}
-const getAllUserYesPage = (query) => {
-    const URL_BACKEND = `/api/v1/user?${query}`;
-    return axios.get(URL_BACKEND)
-
-}
 
 const callLogOutAccount = () => {
-    return axios.post('/api/v1/auth/logout')
+    const instance = axios.create({
+        baseURL: import.meta.env.VITE_BACKEND_URL,
+        withCredentials: true // phải có để gửi cookie
+        });
+    return instance.post('/api/TaiKhoan/Logout')
 }
-const deleteUserById = (id)=>{
-    return axios.delete('/api/v1/user/'+id)
-}
-const addListUserBulk = (data)=>{
-    return axios.post('/api/v1/user/bulk-create',data)
-}
-const updateUser = (id,fullname,email,phone) =>{
-    const data = {
-        _id:id,
-        fullName:fullname,
-        email:email,
-        phone:phone
-    }
-    return axios.put('/api/v1/user',data)
-}
-/* API BOOKs */
-const getAllBooksYesPage = (query) => {
-    const URL_BACKEND = `/api/v1/book?${query}`;
+
+const callDonVids = () =>{
+    const URL_BACKEND = "/api/DonVi/DSDonVi"
     return axios.get(URL_BACKEND)
-
 }
-const getBookCategory = () =>{
-    return axios.get('/api/v1/database/category')
-}
-const uploadImg = (fileImg) => {
-    const bodyFormData = new FormData();
-    bodyFormData.append('fileImg', fileImg);
-    return axios({
-        method: 'post',
-        url: '/api/v1/file/upload',
-        data: bodyFormData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-            "upload-type": "book"
-        },
-    });
-}
-const deleteBookById = (id)=>{
-    return axios.delete('/api/v1/book/'+id)
-}
-const AddBookAPI = (thumbnail,slider,mainText,author,price,sold,quantity,category) => {
-    const URL_BACKEND = "/api/v1/book";
-    const data = {
-        thumbnail:thumbnail,
-        slider:slider,
-        mainText:mainText,
-        author:author,
-        price:price,
-        sold:sold,
-        quantity:quantity,
-        category:category
-    }
-    return axios.post(URL_BACKEND,data)
-}
-const updateBook = (id,thumbnail,slider,mainText,author,price,sold,quantity,category) =>{
-    const data = {
-        _id:id,
-        thumbnail:thumbnail,
-        slider:slider,
-        mainText:mainText,
-        author:author,
-        price:price,
-        sold:sold,
-        quantity:quantity,
-        category:category
-    }
-    return axios.put(`/api/v1/book/${id}`,data)
+const callLoaiSanPhamds = () =>{
+    const URL_BACKEND = "/api/LoaiSanPhami/DSLoaiSP"
+    return axios.get(URL_BACKEND)
 }
 
-export {loginUserAPI,registerUserAPI,callLogOutAccount,getAllUserNoPage,getAllUserYesPage,deleteUserById,AddUserAPI
-,addListUserBulk,updateUser,getAllBooksYesPage,getBookCategory,uploadImg,deleteBookById,AddBookAPI,updateBook,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
-,loginNormalAPI,cartAPI,callFetchAccount}
+const ThemSanPhamAnhVaGia = (formData) =>{
+    const URL_BACKEND = "/api/SanPham/ThemSanPhamAnhVaGia"
+    // const data = {
+    //     files:files,
+    //     TenSanPham:TenSanPham,
+    //     LoaiSanPhamID:LoaiSanPhamID,
+    //     DonViTinhID:DonViTinhID,
+    //     MoTa:MoTa,
+    //     SoLuong:SoLuong,
+    //     GiaBan:GiaBan,
+    //     SalePercent:SalePercent,
+    // }
+    return axios.post(URL_BACKEND,formData,{
+        headers: { "Content-Type": "multipart/form-data" }, //chuyên để gửi form có file đính kèm (upload ảnh, pdf, video...).
+    })
+}
+
+const callDanhSachSPAdmin_NhieuIMG = (query)=>{
+    const URL_BACKEND = `/api/SanPham/DSSanPhamAdminNhieuIMG?`+query
+    return axios.get(URL_BACKEND)
+}
+export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
+,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG}

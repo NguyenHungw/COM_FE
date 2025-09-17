@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Input, Row, theme } from 'antd';
-import { getAllUserYesPage } from '../../../services/api.service';
+// import { getAllUserYesPage } from '../../../services/api.service';
 
 const InputSearch = (props) => {
     const { token } = theme.useToken();
@@ -16,8 +16,8 @@ const InputSearch = (props) => {
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
         let query = "";
-        if(values.fullName){
-            query += `fullName=/${values.fullName}/i`
+        if(values.author){
+            query += `author=/${values.author}/i`
         }
         if(values.email){
             query += `&email=/${values.email}/i`
@@ -35,16 +35,16 @@ const InputSearch = (props) => {
     return (
         <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
             <Row gutter={24}>
-                <Col span={8}>
+                <Col span={24}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
-                        name={`fullName`}
-                        label={`Name`}
+                        name={`search`}
+                        label={`Search`}
                     >
                         <Input placeholder="placeholder" />
                     </Form.Item>
                 </Col>
-                <Col span={8}>
+                {/* <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
                         name={`email`}
@@ -62,7 +62,7 @@ const InputSearch = (props) => {
                     >
                         <Input placeholder="placeholder" />
                     </Form.Item>
-                </Col>
+                </Col> */}
             </Row>
             <Row>
                 <Col span={24} style={{ textAlign: 'right' }}>
@@ -86,14 +86,5 @@ const InputSearch = (props) => {
     );
 };
 
-// https://stackblitz.com/run?file=demo.tsx
-// https://ant.design/components/form
-// const InputSearch = () => {
-//     return (
-//         <div>
-//             <AdvancedSearchForm />
-//         </div>
-//     );
-// };
 
 export default InputSearch;

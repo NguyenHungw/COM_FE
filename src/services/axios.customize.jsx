@@ -7,31 +7,46 @@ const instance = axios.create({
     withCredentials: true
 
   });
+  const refreshAxios  = axios.create({
+    baseURL:  import.meta.env.VITE_BACKEND_URL,
+    withCredentials: true
 
- 
-   instance.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('access_token')}`}
+  });
 
+  //ham refresh token
+   const handleRefreshToken = async ()=>{
+  
+   try {
+     const res = await refreshAxios.get('/api/TaiKhoan/refresh')
+     //luu vao localstore
+    //  console.log('check res>> refresh',res)
+    //  if(res && res.data?.token){
+    //   localStorage.setItem('access_token')
+    //  }
+    if(res&&res.data) return res.data?.token
 
-
-  const handleRefreshToken = async ()=>{
-    const res = await instance.get('/api/TaiKhoan/refresh')
-    if(res&&res.data) return res.data.token
-    else return null;
+   } catch (error) {
+     return null;
+   }
   }
+ 
+// Gán token mặc định cho instance
+instance.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem('access_token')}`}
+
 
   instance.interceptors.request.use(function (config) {
     
-    //check xem co bien window k  
+    // check xem co bien window k  
     // console.log("check window>>",window)
 
-    // if (typeof window !== "undefined" 
-    //   && window 
-    //   && window.localStorage 
-    //   //neu window.localStorage co data thi moi gan 
-    //   && window.localStorage.getItem('access_token')) {//access_token da duoc gan truoc do r 
-    // config.headers.Authorization = 'Bearer ' + window.localStorage.getItem('access_token');//goi den window.localstor de lay token va gan vao header
-    // }
-    // // Do something before request is sent
+    if (typeof window !== "undefined" 
+      && window 
+      && window.localStorage 
+      //neu window.localStorage co data thi moi gan 
+      && window.localStorage.getItem('access_token')) {//access_token da duoc gan truoc do r 
+    config.headers.Authorization = 'Bearer ' + window.localStorage.getItem('access_token');//goi den window.localstor de lay token va gan vao header
+    }
+    // // Do something before request is sent 
      return config;
    }, function (error) {
 
@@ -57,22 +72,23 @@ instance.interceptors.response.use(function (response) {
    //gán lại refresh
       if (error.config 
         && error.response 
-        && +error.response.status === 401 
+        && +error.response.status === 401
         &&!error.config._retry
-        &&!error.config.headers[NO_RETRY_HEADER]
+        // &&!error.config.headers[NO_RETRY_HEADER]
       ) {
         const access_token = await handleRefreshToken()
+        // console.log('cehc access axios custom',access_token)
         //  console.log("Before retry, _retry:", originalRequest._retry);
-error.config._retry = true; 
-        error.config.headers[NO_RETRY_HEADER] = 'true' // string val only
+        // error.config._retry = true; 
+        // error.config.headers[NO_RETRY_HEADER] = 'true' // string val only
         // mặc định NO_RETRY_HEADER ko được gán thì sẽ = null hoặc undifine
-
+        if(access_token)
         notification.success({
           message:'RefreshToken',
           description:"refresh token thành công"
         });
         if(access_token){
-
+          // delete originalRequest.headers[NO_RETRY_HEADER]; // xóa flag
           error.config.headers['Authorization'] = `Bearer ${access_token}`;
           
           // error.config.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
@@ -92,9 +108,9 @@ error.config._retry = true;
       ){
         
         //check neeus ko phai nhung duong dan nay thi moi check refresh token
-        // const validPaths = ['/','/book','/contact','/ErrorPage','/book/:slug','/test'];
+        const validPaths = ['/','/book','/contact','/ErrorPage','/book/:slug','/test'];
         
-        const validPaths = ['/book','/contact','/ErrorPage','/book/:slug','/test'];
+        // const validPaths = ['/book','/contact','/ErrorPage','/book/:slug','/test'];
 
         const bookRegex = /^\/book\/[^/]+$/; // Regex kiểm tra đường dẫn dạng /book/slug
 

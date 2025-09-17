@@ -19,9 +19,17 @@ import Login from "./pages/login";
 import { useDispatch } from "react-redux";
 import { callFetchAccount } from "./services/api.service";
 import { dogetAccountAction } from "./redux/account/accountSlice";
-import { useEffect } from "react";
-// import Home from "./components/home";
+import ProtectedRoute from './components/protectedRoute';
+import LayoutAdmin2 from './components/admin/layoutAdmin2';
+// import AdminPage from './pages/admin/dashboard/index';
 
+
+
+import { useEffect } from "react";
+import DashboardAdmin from "./pages/admin/Dashboard/DashboardAdmin";
+import SeoPage from "./pages/admin/SEO/SeoPage";
+import SanPham from "./pages/admin/SanPhamAdmin/SanPhamTable";
+import MyTextEditor from "./components/Quilleditor/MyTextEditor";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -37,10 +45,13 @@ export default function App() {
   const getAccount = async()=>{
     if(window.location.pathname==='/login') return;
     const res = await callFetchAccount()
-    console.log('check get account',res)
+    // console.log('check get account',res)
     if(res&& res?.data){
       // console.log('check get account',res.data)
       dispatch(dogetAccountAction(res.data))
+      dispatch(dogetAccountAction({ user: res.data }));
+
+
     }
   }
   useEffect(()=>{
@@ -78,46 +89,55 @@ export default function App() {
       ],
   
     },
-    // {
-      
-    //   path: "/admin",
-    //   element: <ProtectedRoute><LayoutAdmin/></ProtectedRoute> ,
-    //   errorElement: <ErrorPage/>,
-    //   children: [
-    //     { 
-    //       index: true,element: 
-    //       <ProtectedRoute>
-    //       <AdminPage /> 
-    //       </ProtectedRoute>,
-          
-    //     },
-
-    //     {
-    //       path: "user",
-    //       element:  <ManageUserPage/> ,
-    //       // <ProtectedRoute>
-    //       // <ManageUserPage /> 
-    //       // </ProtectedRoute>,
-    //     },
-    //     {
-    //       path: "book",
-    //       element: <ManageBookPage />,
-    //     }
-    //   ],
-  
-    // },
     {
-      path: "/login",
-      element: <Login/>,
       
-  
+      path: "/admin",
+      element:(
+      <ProtectedRoute>        
+      <LayoutAdmin2/>
+      </ProtectedRoute> 
+      ),
+      
+      errorElement: <ErrorPage/>,
+      children: [
+        { 
+          // path: "/dashboard",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <DashboardAdmin/>
+       
+          </ProtectedRoute>,
+          
+        },
+         {
+      
+      path: "seo",
+      index:true,
+      element: (
+          <ProtectedRoute>
+            <SeoPage />
+          </ProtectedRoute>
+        ),
+      errorElement: <ErrorPage/>,
+     
     },
-    // {
-    //   path: "/register",
-    //   element: <RegisterPage/>,
+     {
       
-  
-    // },
+      path: "SanPham",
+      index:true,
+      element: (
+          <ProtectedRoute>
+            <SanPham/>
+          </ProtectedRoute>
+        ),
+      errorElement: <ErrorPage/>,
+     
+    },
+      ],
+      
+    },
+   
   ]);
 
   return (

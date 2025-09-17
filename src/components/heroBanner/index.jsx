@@ -39,14 +39,13 @@ const HeroBanner = () =>{
             thumbnail: "https://picsum.photos/id/1018/250/150/",
             originalClass: "original-image",
             thumbnailClass: "thumbnail-image"
-          } 
+        } 
      
       ];
     return( 
      
       <div style={{  }}>
-        <div className='hero-banner' style={{ padding: "0px",maxWidth: 1200, margin: "0 auto"}}>
-         
+        <div className='hero-banner' style={{ padding: "0px",maxWidth: "100%", margin: "0 auto"}}>
   <div className="hero-content-banner" >
           {/* <div style={{ padding: "0px", borderRadius: 5 }}> */}
               { <Row gutter={[0, 0]}>
@@ -61,10 +60,10 @@ const HeroBanner = () =>{
                           slideOnThumbnailOver={false}
                           showBullets={true} //hide bullets
                           slideInterval={5000}
-                           swipeThreshold={100}          // Vuốt ít nhất 30% chiều rộng slide
+                           swipeThreshold={100}        
                            enableSwipe={true}  
-                           slideDuration={500} // ✅ hiệu ứng trượt mượt
-                  autoPlay={false} // ✅ tắt autoPlay để dễ kiểm tra kéo tay
+                           slideDuration={500} 
+                  autoPlay={false} 
                   swipingTransitionDuration={10}
                           showNav={true}
                             onClick={() => {}} // Tắt sự kiện click

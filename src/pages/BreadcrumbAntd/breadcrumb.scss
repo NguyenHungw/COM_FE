@@ -1,12 +1,13 @@
 .breadcrumb-container {
   width: 200px;
-  border: 1px solid red;
+  // border: 1px solid red;
   z-index: 1000;
-  background-color: #202b03;
+  
+  // background-color: #202b03;
   // padding-top: 100px 0;
-  margin-top: 100px;
+  // margin-top: 100px;
   text-align: center;
-  background-color: black;
+  // background-color: black;
 }
 
 .breadcrumb-container .ant-breadcrumb {
@@ -16,6 +17,6 @@
 }
 
 .breadcrumb-container .ant-breadcrumb a {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
 }

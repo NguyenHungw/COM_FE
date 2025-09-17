@@ -37,7 +37,8 @@ $font-hov:#EABB22;
   display: flex;
   justify-content: space-evenly;
   .logo-item{
-     padding: 10px;
+    padding-left: 50px;
+    //  padding: 10px;
       text-decoration: none;
       font-size: 20px;
       font-weight: bold;
@@ -46,12 +47,15 @@ $font-hov:#EABB22;
 
   .menu{
     // margin-left: 500px;
+    margin: auto;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     text-decoration: none; 
     list-style-type: none;
     .menu-item {
+      
+ 
       padding: 20px;
       text-decoration: none;
       font-size: 20px;
@@ -66,6 +70,7 @@ $font-hov:#EABB22;
     }
   }
   .user-item{
+    margin-right: 50px;
     display: flex;
     align-items: center;
     .user-item-child{
@@ -73,9 +78,7 @@ $font-hov:#EABB22;
       text-decoration: none;
       font-size: 18px;
       font-weight: bold;
-      color: $font-nor;
-     
-      
+      color: $font-nor; 
     }
   }
 }
@@ -98,7 +101,15 @@ $font-hov:#EABB22;
 
 .header.small {
   height: 50px;
+  margin-bottom: 20px;
   background-color: #388E3C; /* đổi màu nếu muốn */
   font-size: 0.9rem;
   // padding-bottom: 0;
+    background: radial-gradient(159.85% 367.97% at 150% 123.85%, #ffe147 0, #65ae17 38.76%, #29772d 59.65%, #016334 100%);
+
+  .header-container{
+    
+    height: 0px;
+  }
+
 }

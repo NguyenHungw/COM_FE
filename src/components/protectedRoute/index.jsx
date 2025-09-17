@@ -9,9 +9,9 @@ const RoleBaseRoute = (props) => {
     const isAdminRoute = window.location.pathname.startsWith('/admin');
     const user = useSelector(state => state.account.user);
     const userRole = user.role;
-    console.log("check role pttroute",userRole)
+    // console.log("check role pttroute",userRole)
 
-    if (isAdminRoute && userRole === 'ADMIN') {
+    if (isAdminRoute && userRole === 'Admin') {
         return (<>{props.children}</>)
     } else {
         return (<NotPermitted />)
@@ -20,7 +20,7 @@ const RoleBaseRoute = (props) => {
 
 const ProtectedRoute = (props) => {
     const [isLoading, setIsLoading] = useState(true);
-    console.log('running ProtectedRoute');
+    // console.log('running ProtectedRoute');
     //thêm thời gian đợi vì khi f5 lại trang redux chưa kịp gán data nên phải đợi nó gán xong
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -32,7 +32,7 @@ const ProtectedRoute = (props) => {
     }, []);
 
 
-    console.log("check props protected",props)
+    // console.log("check props protected",props)
     const isAuthenticated = useSelector(state => state.account.isAuthenticated)
 
 
@@ -41,7 +41,7 @@ const ProtectedRoute = (props) => {
         return <div><Loading/></div>;
     }
 
-    console.log("isAuthenticated:", isAuthenticated); // Kiểm tra giá trị
+    // console.log("isAuthenticated:", isAuthenticated); // Kiểm tra giá trị
 
     return (
         <>

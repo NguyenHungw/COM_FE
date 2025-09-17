@@ -3,22 +3,19 @@ import { Image,Badge, Button, Descriptions, Drawer, Upload } from 'antd';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
-const ViewDetailBook =(props) =>{
+const ViewDetailProduct =(props) =>{
 
     //xu ly slide
-    const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const [fileList, setFileList] = useState([
-    
-  ])
+  const [fileList, setFileList] = useState([])
     //
-    const {setIsUpdateBookModal,updateBookModal,setDataUpdate,dataUpdate,viewDetailBook,setDataDetailBook,dataDetailBook,
-        setdataDetailBook,setViewDetailBook
+    const {setViewDetailProduct,viewDetailProduct,setDataDetailProduct,dataDetailProduct
     } = props
-    console.log("check dataDetailBook>>>",dataDetailBook)
+    console.log("check dataDetailBook>>>",dataDetailProduct)
     const onClose = () => {
-        setViewDetailBook(false);
-        setDataDetailBook(null);
+        setViewDetailProduct(false);
+        setDataDetailProduct(null);
     };
 
 
@@ -29,24 +26,23 @@ const ViewDetailBook =(props) =>{
       };
       const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 useEffect(()=>{
-  if(dataDetailBook){
+  if(dataDetailProduct){
     let imgThumnail ={} ,imgSlide = []
-    if(dataDetailBook.thumbnail){
+    if(dataDetailProduct.filePath){
       imgThumnail = {
         uid: uuidv4(),
-        name: dataDetailBook.thumbnail,
+        name: dataDetailProduct.filePath,
         status: 'done',
-        url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${dataDetailBook.thumbnail}`,
+        url: `${import.meta.env.VITE_BACKEND_URL}/upload/${dataDetailProduct.filePath}`,
       }
-
     }
-    if(dataDetailBook.slider && dataDetailBook.slider.length >0 ){
-      dataDetailBook.slider.map((item)=>{
+    if(dataDetailProduct.filePath && dataDetailProduct.filePath.length >0 ){
+      dataDetailProduct.filePath.map((item)=>{
         imgSlide.push({
           uid: uuidv4(),
           name: item,
           status: 'done',
-          url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${item}`,
+          url: `${import.meta.env.VITE_BACKEND_URL}/upload/${item}`,
         })
 
       })
@@ -55,34 +51,34 @@ useEffect(()=>{
     setFileList([imgThumnail, ...imgSlide])
   }
 
-},[dataDetailBook])
+},[dataDetailProduct])
     return (
       <>
           <Drawer
                 title="Chức năng xem chi tiết"
                 width={"50vw"}
                 onClose={onClose}
-                open={viewDetailBook}
+                open={viewDetailProduct}
             >
                 <Descriptions
                     title="Thông tin user"
                     bordered
                     column={2}
                 >
-                    <Descriptions.Item label="Id">{dataDetailBook?._id}</Descriptions.Item>
-                    <Descriptions.Item label="thumbnail">{dataDetailBook?.thumbnail}</Descriptions.Item>
+                    <Descriptions.Item label="Id">{dataDetailProduct?.ID}</Descriptions.Item>
+                    <Descriptions.Item label="thumbnail">{dataDetailProduct?.filePath}</Descriptions.Item>
                    
-                    <Descriptions.Item label="mainText">{dataDetailBook?.mainText}</Descriptions.Item>
-                    <Descriptions.Item label="category">{dataDetailBook?.category}</Descriptions.Item>
+                    <Descriptions.Item label="mainText">{dataDetailProduct?.mainText}</Descriptions.Item>
+                    <Descriptions.Item label="category">{dataDetailProduct?.category}</Descriptions.Item>
 
                     {/* <Descriptions.Item label="Role" span={2}>
                         <Badge status="processing" text={dataDetailBook?.role} />
                     </Descriptions.Item> */}
                     <Descriptions.Item label="Created At">
-                        {moment(dataDetailBook?.createdAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataDetailProduct?.createdAt).format('DD-MM-YYYY hh:mm:ss')}
                     </Descriptions.Item>
                     <Descriptions.Item label="Updated At">
-                        {moment(dataDetailBook?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataDetailProduct?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
                     </Descriptions.Item>
                     {/* <Descriptions.Item label="slider">{dataDetailBook?.slider}</Descriptions.Item> */}
                     
@@ -118,4 +114,4 @@ useEffect(()=>{
       </>
     );
 }
-export default ViewDetailBook;
+export default ViewDetailProduct;
