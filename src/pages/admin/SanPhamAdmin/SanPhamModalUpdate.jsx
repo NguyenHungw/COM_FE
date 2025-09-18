@@ -3,6 +3,8 @@ import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import MyTextEditor from '../../../components/Quilleditor/MyTextEditor';
+import { data } from 'react-router-dom';
+import { ReactSortable } from "react-sortablejs";
 
 //import { AddUserAPI } from '../../../services/api.service';
 // import { Form } from 'react-router-dom';
@@ -16,19 +18,68 @@ const SanPhamModalUpdate = (props) => {
     const [loadingSlider, setLoadingSlider] = useState(false);
     const [imageUrl,setImageUrl] = useState('')
    
-    const [fileListThumbline, setFileListThumbline] = useState([]);
-    const [fileListSlider,setFileListSlider] = useState([])
+   
     const [previewTitle, setPreviewTitle] = useState('');
     const [isSubmit,setIsSubmit] = useState(false)
 
     const [initForm,setInit] = useState(null)
     const [giaSauGiam,setGiaSauGiam] = useState(null)
+     const [fileList,setFileList] = useState([])
+
     const {setIsUpdateProductModal,updateProductModal,setDataUpdate,dataUpdate } = props
-console.log('check initFOrm>',initForm)
+// console.log('check initFOrm>',initForm)
+
+console.log('dataup',dataUpdate)
+// if(dataUpdate?.id){
+// const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
+//       uid:String(index),
+//       name:img.filePath.split("/").pop(), //lấy tên file
+//       status: "done",
+//       url:`${import.meta.env.VITE_BACKEND_URL}/upload/${img?.filePath}`,
+//     }))
+//     setFileList(listIMG)
+// }
+   
 
 useEffect(()=>{
+  // if(updateProductModal){
+  //   console.log('check dataupdate>>',dataUpdate)
+  // }
+  if(dataUpdate?.id){
+const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
+      uid:String(index),
+      name:img.filePath.split("/").pop(), //lấy tên file
+      status: "done",
+      url:`${import.meta.env.VITE_BACKEND_URL}${img?.filePath}`,
+    }))
+    setFileList(listIMG)
+    
+
+    // console.log('check dataupdate',dataUpdate)
+const init = {
+    ID:dataUpdate.id,
+    TenSanPham:dataUpdate.tenSanPham,
+    LoaiSanPhamID:dataUpdate.tenLoaiSP,
+    DonViTinhID:dataUpdate.tenDonVi,
+    GiaBan:dataUpdate.giaBan,
+    SalePercent:dataUpdate.salePercent,
+    MoTa:dataUpdate.moTa,
+    SoLuong:dataUpdate.soLuong,
+       ListIMG: dataUpdate.danhSachAnh || []  // mảng ảnh
+
+
+  }
+    const giaBan = init.GiaBan || 0
+    const salePercent = init.SalePercent || 0;
+    const result = giaBan * (1 - salePercent / 100);
+    setGiaSauGiam(result)
+  setInit(init)
+  form.setFieldsValue(init)
+  // console.log('check init',init)
+  }
+  
  
-},[])
+},[updateProductModal,dataUpdate])
 
     const beforeUpload = (file) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -49,7 +100,7 @@ useEffect(()=>{
       
     }
     const handlePreview = async (file) => {
-      console.log('check handle preview',file)
+      // console.log('check handle preview',file)
       if(file.url){
         setPreviewImage(file.thumbUrl || file.preview || file.url);
         setPreviewOpen(true);
@@ -57,7 +108,7 @@ useEffect(()=>{
         return
       }      
       getBase64(file.originFileObj, (url) => {
-        console.log('checkurl>>',url)
+        // console.log('checkurl>>',url)
         setPreviewImage(url);
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
@@ -66,8 +117,7 @@ useEffect(()=>{
  
 
 
-    console.log('check 1>>>>',initForm?.slider?.fileList)
-    console.log('check 2>>>>',initForm?.slider)
+
       const handleChange = (info, type) => {
         
         if (info.file.status === 'uploading') {
@@ -75,7 +125,7 @@ useEffect(()=>{
             //info.file.status = 'done';
             return;
         }
-        console.log('check info',info)
+        // console.log('check info',info)
         if (info.file.status === 'done') {
             // Get this url from response in real world.
             console.log('check done',info)
@@ -267,24 +317,47 @@ useEffect(()=>{
           name="files"
           label="Ảnh"
         >
+    
          <Upload
         listType="picture-card"
         multiple={true}
         maxCount={5}
         beforeUpload={() => false} // không upload ngay
-        // fileList={fileList}
+        //  fileList={fileList}
         // onChange={({fileList})=>setFileList(fileList)}
-
+          onChange={({ fileList: newFiles }) =>
+          setFileList([...fileList, ...newFiles])
+        }
         // onChange={handleChange}
-        
-
-      >
+         showUploadList={{
+          showPreviewIcon: true,
+          showRemoveIcon: true,
+        }}
+        >
+     
      
         <div>
           {loading ? <LoadingOutlined /> : <PlusOutlined />}
           <div style={{ marginTop: 8 }}>Upload</div>
       </div>
       </Upload>
+         {/* Danh sách ảnh có thể kéo thả */}
+      <ReactSortable list={fileList} setList={setFileList} animation={150}>
+        {fileList.map((file) => (
+          <div key={file.uid} style={{ width: 100, display:'flex' }}>
+            <Image
+              src={file.url || URL.createObjectURL(file.originFileObj)}
+              alt={file.name}
+              style={{
+                width: 100,
+                height: 100,
+                objectFit: "cover",
+                borderRadius: 8,
+              }}
+            />
+          </div>
+        ))}
+      </ReactSortable>
         </Form.Item>
       </Col>
     </Row>
@@ -295,7 +368,7 @@ useEffect(()=>{
     <Button  onClick={() => { form.submit() }} type="primary">Submit</Button>
     <Button  
     htmlType="reset" 
-    onClick={()=>{form.resetFields(),setGiaSauGiam(null),setFileListThumbline([])}}>Reset</Button>
+    onClick={()=>{form.resetFields(),setGiaSauGiam(null)}}>Reset</Button>
 </div>
 
       </Modal>

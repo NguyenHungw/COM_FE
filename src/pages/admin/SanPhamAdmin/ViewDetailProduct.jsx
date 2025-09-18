@@ -12,7 +12,7 @@ const ViewDetailProduct =(props) =>{
     //
     const {setViewDetailProduct,viewDetailProduct,setDataDetailProduct,dataDetailProduct
     } = props
-    console.log("check dataDetailBook>>>",dataDetailProduct)
+    // console.log("check dataDetailBook>>>",dataDetailProduct)
     const onClose = () => {
         setViewDetailProduct(false);
         setDataDetailProduct(null);

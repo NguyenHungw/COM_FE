@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, Popconfirm, Space, Table, Tag } from 'antd';
-import { callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI } from '../../../services/api.service';
+import { Button, message, notification, Popconfirm, Space, Table, Tag } from 'antd';
+import { callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaSPAnhGia } from '../../../services/api.service';
 import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
@@ -31,7 +31,18 @@ const SanPhamTable = () => {
            }
         }
     }
-    
+    const HandleDelete = async (id)=>{
+      const res = await XoaSPAnhGia(id)
+      if(res && res?.data){
+        fetchProduct()
+        notification.success({
+          message:'xóa thành công',
+          description:res.status
+        },
+        
+      )}
+
+    }
   const renderHeader=() => {
     
     return(
@@ -75,9 +86,9 @@ const cancel = e => {
   message.error('Click on No');
 };
 const filePath = `${import.meta.env.VITE_BACKEND_URL}/upload/${productList?.Anh}`
-console.log('fp',filePath)
+// console.log('fp',filePath)
 
-console.log('product',productList?.filePath)
+// console.log('product',productList?.filePath)
 
 const columns = [
    {
@@ -91,7 +102,8 @@ const columns = [
   },
   {
     title: 'ID',
-    //key: '_id',
+    
+
     render: (_, record, index) => {
         return (
             <div><a href='#' 
@@ -151,6 +163,12 @@ const columns = [
     sorter:true
   },
   {
+    title: 'Số Lượng',
+    dataIndex: 'soLuong',
+    key: 'SoLuong',
+    sorter:true
+  },
+  {
     title: 'Tên loại sản phẩm',
     dataIndex: 'tenLoaiSP',
     key: 'tenLoaiSP',
@@ -186,7 +204,7 @@ const columns = [
               placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
-              // onConfirm={() => { HandleDelete(record._id) }}
+               onConfirm={() => { HandleDelete(record.id) }}
               onCancel={cancel}
               okText="Yes"
               cancelText="No"
@@ -207,6 +225,7 @@ const columns = [
               title={renderHeader}
               columns={columns} 
               dataSource={productList}
+              rowKey='id'
              />
         <ViewDetailProduct
           dataUpdate={dataUpdate}

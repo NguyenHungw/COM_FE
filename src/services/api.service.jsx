@@ -105,10 +105,16 @@ const ThemSanPhamAnhVaGia = (formData) =>{
         headers: { "Content-Type": "multipart/form-data" }, //chuyên để gửi form có file đính kèm (upload ảnh, pdf, video...).
     })
 }
+const XoaSPAnhGia = (id)=>{
+    const URL_BACKEND=`/api/SanPham/XoaSanPhamAnhGia`+id
+    return axios.delete(URL_BACKEND,id)
+}
 
 const callDanhSachSPAdmin_NhieuIMG = (query)=>{
     const URL_BACKEND = `/api/SanPham/DSSanPhamAdminNhieuIMG?`+query
     return axios.get(URL_BACKEND)
 }
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
-,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG}
+,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
+,XoaSPAnhGia
+}
