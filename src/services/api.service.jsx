@@ -114,7 +114,11 @@ const callDanhSachSPAdmin_NhieuIMG = (query)=>{
     const URL_BACKEND = `/api/SanPham/DSSanPhamAdminNhieuIMG?`+query
     return axios.get(URL_BACKEND)
 }
+const DoiViTriHinhAnh = (payload) => {
+    const URL_BACKEND=`/api/SamPhamImage/DoiNhieuViTri`
+    return axios.put(URL_BACKEND,payload)
+}
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia
+,XoaSPAnhGia,DoiViTriHinhAnh
 }

@@ -8,6 +8,7 @@ import InputSearch from './InputSearch';
 import ViewDetailProduct from './ViewDetailProduct';
 import SanPhamModalUpdate from './SanPhamModalUpdate';
 import SanPhamModalCreate from './SanPhamModalCreate';
+import './sanPhamModalUpdate.scss'
 
 
 const SanPhamTable = () => {
@@ -194,7 +195,7 @@ const columns = [
           <div style={{ display: "flex", gap: "20px" }}>
             <EditOutlined
               onClick={() => {
-                console.log("check record",record)
+                // console.log("check record",record)
                setDataUpdate(record)
                setIsUpdateProductModal(true)
               }}
@@ -240,6 +241,7 @@ const columns = [
           setDataUpdate = {setDataUpdate}
           updateProductModal = {updateProductModal}
           setIsUpdateProductModal = {setIsUpdateProductModal}
+          fetchProduct={fetchProduct}
         />
         <SanPhamModalCreate
           productModalCreate = {productModalCreate}

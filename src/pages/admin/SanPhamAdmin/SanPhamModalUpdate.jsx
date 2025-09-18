@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import MyTextEditor from '../../../components/Quilleditor/MyTextEditor';
 import { data } from 'react-router-dom';
 import { ReactSortable } from "react-sortablejs";
+import { callDonVids, callLoaiSanPhamds, DoiViTriHinhAnh } from '../../../services/api.service';
 
 //import { AddUserAPI } from '../../../services/api.service';
 // import { Form } from 'react-router-dom';
@@ -25,34 +26,76 @@ const SanPhamModalUpdate = (props) => {
     const [initForm,setInit] = useState(null)
     const [giaSauGiam,setGiaSauGiam] = useState(null)
      const [fileList,setFileList] = useState([])
-
+ const [dsDonvi, setDsDonvi] = useState()
+    const [dsLoaiSP, setDsLoaiSP] = useState()
     const {setIsUpdateProductModal,updateProductModal,setDataUpdate,dataUpdate } = props
-// console.log('check initFOrm>',initForm)
 
-console.log('dataup',dataUpdate)
-// if(dataUpdate?.id){
-// const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
-//       uid:String(index),
-//       name:img.filePath.split("/").pop(), //lấy tên file
-//       status: "done",
-//       url:`${import.meta.env.VITE_BACKEND_URL}/upload/${img?.filePath}`,
-//     }))
-//     setFileList(listIMG)
-// }
+const APILoaiSP = async ()=>{
+  const res = await callLoaiSanPhamds()
+  if(res&& res?.data){
+    console.log('api loai sp',res)
+    setDsLoaiSP(
+      res.data.map((item)=>({
+      label:item.tenLoaiSanPham,
+      value:item.loaiSanPhamID
+    }))
+    )
    
+  }
+}
+const APIDonViSP = async() =>{
+  const res = await callDonVids()
+  if(res&&res?.data){
+    setDsDonvi(
+      res.data.map((item)=>({
+        label:item.tenDonVi,
+        value:item.donViTinhID
+      }))
+    )
+  }
+}
+   const HinhAnhDoiViTri = async(payload) =>{
+  const res = await DoiViTriHinhAnh(payload)
+  if(res&& res?.data){
+    notification.success({
+      message:"Đổi vị trí",
+      description:"Thành công"
+    })
+  }
+}
 
 useEffect(()=>{
-  // if(updateProductModal){
-  //   console.log('check dataupdate>>',dataUpdate)
-  // }
-  if(dataUpdate?.id){
-const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
-      uid:String(index),
+ if(fileList.length>0){
+    const payload = fileList.map((item,index)=>({
+      imageID:item.idPic,
+      newIndex:index
+    }))
+  HinhAnhDoiViTri(payload)
+  props.fetchProduct()
+  
+  }
+  
+ 
+},[fileList])
+useEffect(()=>{
+ 
+  if(updateProductModal){
+      APILoaiSP()
+      APIDonViSP()
+      console.log("dataUpdate.danhSachAnh.idPic,",dataUpdate.danhSachAnh)
+      if(dataUpdate?.id){
+        const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
+      uid:String(img.idPic),          
       name:img.filePath.split("/").pop(), //lấy tên file
       status: "done",
       url:`${import.meta.env.VITE_BACKEND_URL}${img?.filePath}`,
+      idPic: img.idPic,
     }))
     setFileList(listIMG)
+      }
+  }
+  if(dataUpdate?.id){
+
     
 
     // console.log('check dataupdate',dataUpdate)
@@ -65,13 +108,15 @@ const init = {
     SalePercent:dataUpdate.salePercent,
     MoTa:dataUpdate.moTa,
     SoLuong:dataUpdate.soLuong,
-       ListIMG: dataUpdate.danhSachAnh || []  // mảng ảnh
+    ListIMG: dataUpdate.danhSachAnh || []  // mảng ảnh
 
 
   }
     const giaBan = init.GiaBan || 0
     const salePercent = init.SalePercent || 0;
     const result = giaBan * (1 - salePercent / 100);
+   
+
     setGiaSauGiam(result)
   setInit(init)
   form.setFieldsValue(init)
@@ -183,7 +228,6 @@ const init = {
       onFinish={onFinish}
       
       onValuesChange={onValuesChange}
-      
       >
     <Row gutter={10}>
     <Col span={12}>
@@ -209,10 +253,9 @@ const init = {
             defaultValue={''}
             showSearch
             allowClear
-          //  options={dsLoaiSP}
+            options={dsLoaiSP}
           />
       </Form.Item>
-      
       </Col>
       <Col span={6}>
       <Form.Item
@@ -228,7 +271,7 @@ const init = {
             defaultValue={''}
             showSearch
             allowClear
-          //  options={dsDonvi}
+           options={dsDonvi}
           />
       </Form.Item>
       
@@ -277,7 +320,7 @@ const init = {
            label="Giá sau giảm"
         >
           <InputNumber
-               value={giaSauGiam}
+               value={Math.round(giaSauGiam)}
               min={0}
               disabled
               style={{width:"100%" ,color:'green'}}
@@ -313,52 +356,86 @@ const init = {
       </Col>
 
       <Col span={12}>
+      <div className='contain-img'>
         <Form.Item
           name="files"
           label="Ảnh"
         >
     
          <Upload
+         className='upload-img'
         listType="picture-card"
         multiple={true}
         maxCount={5}
         beforeUpload={() => false} // không upload ngay
-        //  fileList={fileList}
-        // onChange={({fileList})=>setFileList(fileList)}
           onChange={({ fileList: newFiles }) =>
           setFileList([...fileList, ...newFiles])
         }
-        // onChange={handleChange}
-         showUploadList={{
+   
+          showUploadList={{
           showPreviewIcon: true,
           showRemoveIcon: true,
         }}
         >
-     
-     
         <div>
           {loading ? <LoadingOutlined /> : <PlusOutlined />}
           <div style={{ marginTop: 8 }}>Upload</div>
       </div>
       </Upload>
          {/* Danh sách ảnh có thể kéo thả */}
-      <ReactSortable list={fileList} setList={setFileList} animation={150}>
+      <ReactSortable
+       className='sort-img' 
+       style={{ 
+       display: "flex", 
+       flexWrap: "wrap", 
+       gap: 12 }}
+       list={fileList} 
+       setList={(newlist)=>{setFileList(newlist)
+       newlist.forEach((item, index) => {
+        console.log('newlist',newlist)
+      console.log(`Ảnh ID: ${item.uid} - Vị trí mới: ${index}`);
+    });
+       }} 
+       animation={150} 
+       >
         {fileList.map((file) => (
-          <div key={file.uid} style={{ width: 100, display:'flex' }}>
-            <Image
-              src={file.url || URL.createObjectURL(file.originFileObj)}
-              alt={file.name}
-              style={{
-                width: 100,
-                height: 100,
-                objectFit: "cover",
-                borderRadius: 8,
-              }}
-            />
-          </div>
+          <div key={file.idPic} style={{ position: "relative", width: 100, height: 100 }}>
+  <Image
+    src={file.url || URL.createObjectURL(file.originFileObj)}
+    alt={file.name}
+    style={{
+      width: 100,
+      height: 100,
+      objectFit: "cover",
+      borderRadius: 8,
+    }}
+  />
+  <button
+    onClick={() => setFileList(fileList.filter(f => f.uid !== file.uid))}
+    style={{
+      position: "absolute",
+      top: 4,
+      right: 4,
+      background: "rgba(0,0,0,0.5)",
+      border: "none",
+      color: "#fff",
+      borderRadius: "50%",
+      cursor: "pointer",
+      width: 20,
+      height: 20,
+      lineHeight: "20px",
+      textAlign: "center",
+    }}
+  >
+    ×
+  </button>
+  
+</div>
+
         ))}
       </ReactSortable>
         </Form.Item>
+        </div>
       </Col>
     </Row>
       <Space>
