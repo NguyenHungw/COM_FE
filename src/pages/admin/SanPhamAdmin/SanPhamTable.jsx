@@ -27,7 +27,7 @@ const SanPhamTable = () => {
         const res = await callDanhSachSPAdmin_NhieuIMG(query)
         {
            if(res && res?.data){
-            console.log('check ress',res.data)
+            // console.log('check ress',res.data)
             setProductList(res.data)
            }
         }

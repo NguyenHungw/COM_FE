@@ -118,7 +118,30 @@ const DoiViTriHinhAnh = (payload) => {
     const URL_BACKEND=`/api/SamPhamImage/DoiNhieuViTri`
     return axios.put(URL_BACKEND,payload)
 }
+const UploadIMG = (formData) =>{
+    const URL_BACKEND =`/api/SamPhamImage/ThemHinhAnhSP`
+      return axios.post(URL_BACKEND,formData,{
+        headers: { "Content-Type": "multipart/form-data" }, //chuyên để gửi form có file đính kèm (upload ảnh, pdf, video...).
+    })
+
+}
+const RemoveIMG =(id)=>{
+    const URL_BACKEND = `/api/SamPhamImage/XoaHinhAnh?id=`+id
+    return axios.delete(URL_BACKEND,id)
+}
+const UpdateIMG =(formData)=>{
+    const URL_BACKEND = `/api/SamPhamImage/SuaIMG`
+     return axios.post(URL_BACKEND,formData,{
+        headers: { "Content-Type": "multipart/form-data" }, //chuyên để gửi form có file đính kèm (upload ảnh, pdf, video...).
+    })
+
+}
+const ChiTietIMG = (id) =>{
+    const URL_BACKEND = `/api/SamPhamImage/ChiTietHinhAnhSP?id=`+id
+    return axios.get(URL_BACKEND)
+}
+
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia,DoiViTriHinhAnh
+,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG
 }

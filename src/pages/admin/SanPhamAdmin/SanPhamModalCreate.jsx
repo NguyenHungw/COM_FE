@@ -122,7 +122,10 @@ const SanPhamModalCreate = (props) => {
       });
       const res = await ThemSanPhamAnhVaGia(formData)
       if(res && res?.data){
-        console.log('check res>>',res)
+        notification.success({
+          message:'Thêm Sản phẩm',
+          description:'Thành công'
+        })
       }
 
     }}
