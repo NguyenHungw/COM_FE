@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import MyTextEditor from '../../../components/Quilleditor/MyTextEditor';
 import { data } from 'react-router-dom';
 import { ReactSortable } from "react-sortablejs";
-import { callDonVids, callLoaiSanPhamds, ChiTietIMG, DoiViTriHinhAnh, RemoveIMG, UpdateIMG, UploadIMG } from '../../../services/api.service';
+import { callDonVids, callLoaiSanPhamds, ChiTietIMG, DoiViTriHinhAnh, RemoveIMG, SuaGiaSP, SuaSP, UpdateIMG, UploadIMG } from '../../../services/api.service';
 
 
 
@@ -36,19 +36,7 @@ const [refreshKey, setRefreshKey] = useState(0) // refresh cho hinh anh sau khi 
     const [showOptions,setShowOptions] = useState(false)
     const {setIsUpdateProductModal,updateProductModal,setDataUpdate,dataUpdate } = props
 
-    const setModal = () =>{
-       if(dataUpdate?.id){
-        const listIMG = dataUpdate.danhSachAnh.map((img,index)=>({
-      uid:String(img.idPic),      // thuoc tinh bat buoc cua antd dung lam key duy nhat de quan ly danh sach anh    
-      name:img.filePath.split("/").pop(), //lấy tên file
-      status: "done",
-      url:`${import.meta.env.VITE_BACKEND_URL}${img?.filePath}`,
-      idPic: img.idPic // su dung de xoa anh, doi vitri anh
-    }))
-    
-    // setFileListIMG(listIMG)
-    }
-  }
+
   const callIMG = async ()=>{
     // const formData = new FormData()
     // formData.append("id",initForm.ID)
@@ -101,6 +89,7 @@ if(res && res?.data?.status ===1){
     message:res.data.message,
     description:res.data.status
   })
+  
 }
     }
   
@@ -116,12 +105,12 @@ if(res && res?.data?.status ===1){
     if (res?.data) {
       notification.success({ message: "Upload thành công" })
     }
-     const newImg = {
-        uid: String(Date.now()), // unique key
-        name: file.name,
-        status: "done",
-        url: URL.createObjectURL(file) // hiển thị ngay (preview tạm)
-      }
+    //  const newImg = {
+    //     uid: String(Date.now()), // unique key
+    //     name: file.name,
+    //     status: "done",
+    //     url: URL.createObjectURL(file) // hiển thị ngay (preview tạm)
+    //   }
     // setFileListIMG(prev => [...prev, newImg])
     // callIMG()
 callIMG()
@@ -187,6 +176,7 @@ useEffect(()=>{
  
   if(updateProductModal){
 refreshUpdateModal()
+initFunc()
 
         // setNewFileList([])
     //   APILoaiSP()
@@ -223,8 +213,8 @@ const initFunc = ()=>{
   const init = {
     ID:dataUpdate.id,
     TenSanPham:dataUpdate.tenSanPham,
-    LoaiSanPhamID:dataUpdate.tenLoaiSP,
-    DonViTinhID:dataUpdate.tenDonVi,
+    LoaiSanPhamID:dataUpdate.loaiSanPhamID,
+    DonViTinhID:dataUpdate.donViTinhID,
     GiaBan:dataUpdate.giaBan,
     SalePercent:dataUpdate.salePercent,
     MoTa:dataUpdate.moTa,
@@ -243,66 +233,7 @@ const initFunc = ()=>{
   // setFileList(dataUpdate.danhSachAnh)
   form.setFieldsValue(init)
  }
-    const beforeUpload = (file) => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-          message.error('You can only upload JPG/PNG file!');
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-          message.error('Image must smaller than 2MB!');
-      }
-      return isJpgOrPng && isLt2M;
-  };
-    const getBase64 = (img, callback) => {
-      console.log("running Base64 func")
-      const reader = new FileReader();
-      reader.addEventListener('load', () => callback(reader.result));
-      reader.readAsDataURL(img);
-      
-    }
-    const handlePreview = async (file) => {
-      // console.log('check handle preview',file)
-      if(file.url){
-        setPreviewImage(file.thumbUrl || file.preview || file.url);
-        setPreviewOpen(true);
-        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-        return
-      }      
-      getBase64(file.originFileObj, (url) => {
-        // console.log('checkurl>>',url)
-        setPreviewImage(url);
-        setPreviewOpen(true);
-        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-    });
-    };
- 
 
-
-
-      const handleChange = (info, type) => {
-        console.log('check inffo',info)
-        
-        if (info.file.status === 'uploading') {
-            type ? setLoadingSlider(true) : setLoading(true);
-            //info.file.status = 'done';
-            return;
-        }
-        // console.log('check info',info)
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            console.log('check done',info)
-            getBase64(info.file.originFileObj, (url) => {
-                type ? setLoadingSlider(false) : setLoading(false);
-                setImageUrl(url);
-            });
-        }
-        
-    };
-
-  const hanldeRemove = (file,type) => {
-   
-  }
   
   const handleCancel = () => {
 
@@ -314,9 +245,64 @@ const initFunc = ()=>{
   
 };
 
-
+// const UpdateSP = async(values)=>{
+//   console.log('val',values)
+ 
+// }
  const onFinish = async(values) =>{
+console.log('check values',values)
+// UpdateSP(values)
+let called = false
+// const res = await SuaSP(values.ID,values.TenSanPham,values.LoaiSanPhamID,values.DonViTinhID,values.MoTa,values.SoLuong)
+//   if(res&&res?.data===1){
+//     console.log(res)
+//     notification.success({message:"cập nhật thành công"})
+//         form.resetFields();
+//     setIsUpdateProductModal(false)
+//     // setInit(null)  
+//     await props.fetchProduct()
+//   }
 
+ try {
+  // if(values.TenSanPham || values.LoaiSanPhamID || values.DonViTinhID || values.MoTa || values.SoLuong){
+  //    const resSP = await SuaSP(
+  //       values.ID,
+  //       values.TenSanPham,
+  //       values.LoaiSanPhamID,
+  //       values.DonViTinhID,
+  //       values.MoTa,
+  //       values.SoLuong
+  //     )
+  //      if (resSP?.data === 1) {
+  //       notification.success({ message: "Cập nhật thông tin sản phẩm thành công" })
+  //       called = true
+  //     }
+  // }
+   if (values.GiaBan || values.SalePercent) {
+      const resGia = await SuaGiaSP(
+         values.ID,
+      values.GiaBan,
+       values.SalePercent
+      )
+      if (resGia?.data === 1) {
+        notification.success({ message: "Cập nhật giá sản phẩm thành công" })
+        called = true
+      }
+    }
+
+    if (called) {
+      form.resetFields()
+      setIsUpdateProductModal(false)
+      await props.fetchProduct()
+    } else {
+      notification.info({ message: "Không có dữ liệu nào được thay đổi" })
+    }
+ }catch(error){
+  notification.error({
+      message: "Lỗi cập nhật",
+      description: error?.response?.data?.message || "Lỗi không xác định"
+    })
+ }
 
  
  }
@@ -379,6 +365,9 @@ const initFunc = ()=>{
       
       onValuesChange={onValuesChange}
       >
+       <Form.Item name="ID" hidden>
+    <Input />
+  </Form.Item>
     <Row gutter={10}>
     <Col span={12}>
       <Form.Item

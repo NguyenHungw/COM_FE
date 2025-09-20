@@ -140,8 +140,29 @@ const ChiTietIMG = (id) =>{
     const URL_BACKEND = `/api/SamPhamImage/ChiTietHinhAnhSP?id=`+id
     return axios.get(URL_BACKEND)
 }
+const SuaSP = (id,tenSanPham,loaiSanPhamID,donViTinhID,moTa,soLuong) =>{
+    const URL_BACKEND =`/api/SanPham/SuaSanPham`
+    const data = {
+        id:id,
+        tenSanPham:tenSanPham,
+        loaiSanPhamID:loaiSanPhamID,
+        donViTinhID:donViTinhID,
+        moTa:moTa,
+        soLuong:soLuong
+    }
+    return axios.put(URL_BACKEND,data)
+}
+const SuaGiaSP = (sanPhamID, giaBan, salePercent) => {
+  const URL_BACKEND = `/api/SanPham/SuaGiaSanPham`
+  const data = {
+    sanPhamID, giaBan, salePercent
+  }
+  return axios.put(URL_BACKEND, data,{
+    headers: {"Content-Type": "application/json"}
+  })
+}
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG
+,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP
 }
