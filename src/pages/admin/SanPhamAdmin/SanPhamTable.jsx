@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, notification, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
 import { callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaSPAnhGia } from '../../../services/api.service';
 import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
 
@@ -9,6 +9,8 @@ import ViewDetailProduct from './ViewDetailProduct';
 import SanPhamModalUpdate from './SanPhamModalUpdate';
 import SanPhamModalCreate from './SanPhamModalCreate';
 import './sanPhamModalUpdate.scss'
+import * as XLSX from 'xlsx';
+
 
 
 const SanPhamTable = () => {
@@ -21,17 +23,42 @@ const SanPhamTable = () => {
   const [dataUpdate,setDataUpdate] = useState(null)
   const [updateProductModal,setIsUpdateProductModal] = useState(false)
   const [productModalCreate,setProductModalCreate] = useState(false)
-
-    let query = 'page=1&s=50'
+// phan trang
+  const [total,setTotal] = useState(null)
+  const [pageSize, setPageSize] = useState(5)
+  const [current,setCurrent] = useState(1)
+// 
        const fetchProduct = async ()=>{
+          let query=`page=${current}&s=${pageSize}`;
+
         const res = await callDanhSachSPAdmin_NhieuIMG(query)
         {
            if(res && res?.data){
             // console.log('check ress',res.data)
+            //  setListProduct(res.data);
+            console.log('totalrow',res.totalRow)
+            setTotal(res.totalRow)
             setProductList(res.data)
            }
         }
     }
+
+    const handleOnchangePage = (pagination, filters, sorter, extra) =>{
+    if (pagination && pagination.current) {
+      if (+pagination.current !== +current) { //current la gia tri page hien tai react dang luu
+        setCurrent(+pagination.current) //"5" =>5
+      }
+    }
+    if (pagination && pagination.pageSize) {
+      if (+pagination.pageSize !== +pageSize) { //current la gia tri page hien tai react dang luu
+        setPageSize(+pagination.pageSize) //"5" =>5
+      }
+    }
+    // if(sorter && sorter.field){
+    //   const q = sorter.order === 'ascend' ? `sort=${sorter.field}` : `sort=-${sorter.field}`;
+    //   setSortQuery(q);
+    // }
+  }
     const HandleDelete = async (id)=>{
       const res = await XoaSPAnhGia(id)
       if(res && res?.data){
@@ -44,6 +71,35 @@ const SanPhamTable = () => {
       )}
 
     }
+      const handleExport = ()=>{
+    let exportData = [];
+
+    if(productList && productList.length>0){
+      // console.log('check productlist',productList)
+      productList.forEach(item => {
+        item.danhSachAnh.forEach(img=>{
+          exportData.push({
+             SanPhamID: item.id,
+              TenSanPham: item.tenSanPham,
+              GiaBan: item.giaBan,
+              SalePercent: item.salePercent,
+              GiaSauGiam: item.giaSauGiam,
+              FilePath: img.filePath,
+              IndexOrder: img.indexOrder
+
+          })
+        })
+        
+      });
+      
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "MYSavedData.xlsx");
+    }
+    
+    
+  }
   const renderHeader=() => {
     
     return(
@@ -53,7 +109,7 @@ const SanPhamTable = () => {
           <Button
               icon={<ExportOutlined />}
               type="primary"
-              // onClick={handleExport}
+              onClick={handleExport}
           >Export</Button>
 
           <Button
@@ -77,7 +133,7 @@ const SanPhamTable = () => {
 
 useEffect(()=>{
 fetchProduct()
-},[])
+},[current,pageSize])
 const confirm = e => {
   console.log(e);
   message.success('Click on Yes');
@@ -217,6 +273,7 @@ const columns = [
           </div>
         </>
       )
+      
   }
 ];
 
@@ -229,6 +286,14 @@ const columns = [
               columns={columns} 
               dataSource={productList}
               rowKey='id'
+              onChange={handleOnchangePage}
+               pagination={{ 
+            current: current,
+            pageSize:pageSize, 
+            showSizeChanger: true, 
+            total:total,
+            showTotal: (total,Range) => {return(<div>{Range[0]} - {Range[1]} trên {total} rows</div>)}
+            }}
              />
         <ViewDetailProduct
           dataUpdate={dataUpdate}
@@ -250,6 +315,7 @@ const columns = [
           setProductModalCreate = {setProductModalCreate}
 
         />
+  
         </>
     )
 }

@@ -264,20 +264,20 @@ let called = false
 //   }
 
  try {
-  // if(values.TenSanPham || values.LoaiSanPhamID || values.DonViTinhID || values.MoTa || values.SoLuong){
-  //    const resSP = await SuaSP(
-  //       values.ID,
-  //       values.TenSanPham,
-  //       values.LoaiSanPhamID,
-  //       values.DonViTinhID,
-  //       values.MoTa,
-  //       values.SoLuong
-  //     )
-  //      if (resSP?.data === 1) {
-  //       notification.success({ message: "Cập nhật thông tin sản phẩm thành công" })
-  //       called = true
-  //     }
-  // }
+  if(values.TenSanPham || values.LoaiSanPhamID || values.DonViTinhID || values.MoTa || values.SoLuong){
+     const resSP = await SuaSP(
+        values.ID,
+        values.TenSanPham,
+        values.LoaiSanPhamID,
+        values.DonViTinhID,
+        values.MoTa,
+        values.SoLuong
+      )
+       if (resSP?.data === 1) {
+        notification.success({ message: "Cập nhật thông tin sản phẩm thành công" })
+        called = true
+      }
+  }
    if (values.GiaBan || values.SalePercent) {
       const resGia = await SuaGiaSP(
          values.ID,

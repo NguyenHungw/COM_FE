@@ -25,7 +25,7 @@ const ProtectedRoute = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false); // Cập nhật trạng thái sau vài giây
-        }, 100); // Thời gian chờ là 3 giây, có thể thay đổi theo ý bạn
+        }, 500); // Thời gian chờ là 3 giây, có thể thay đổi theo ý bạn
 
         // Xóa timer khi component unmount
         return () => clearTimeout(timer);

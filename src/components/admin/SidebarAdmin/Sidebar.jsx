@@ -52,8 +52,8 @@ const SidebarAdmin = (props) => {
               label: "Quản lý Sản Phẩm",
               children: [
                 { key: "2-1", label: <Link to="/admin/sanpham">Sản Phẩm</Link> },
-                { key: "2-2", label: "Đơn Vị" },
-                { key: "2-3", label: "Loại Sản Phẩm" },
+                { key: "2-2", label:  <Link to="/admin/donvi">Đơn Vị</Link>   },
+                { key: "2-3", label: <Link to="/admin/loaisanpham">Loại Sản Phẩm</Link> },
               ],
             },
             { 
@@ -61,9 +61,9 @@ const SidebarAdmin = (props) => {
               icon: <UploadOutlined />, 
               label: "Người dùng & Quyền hạn",
                children: [
-                { key: "3-1", label: "Người dùng" },
-                { key: "3-2", label: "Nhóm quyền" },
-                { key: "3-3", label: "Phân quyền" },
+                { key: "3-1", label:  <Link to="/admin/user">Người Dùng</Link> },
+                { key: "3-2", label: <Link to="/admin/nhomquyen">Nhóm Quyền</Link> },
+                { key: "3-3", label: <Link to="/admin/phanquyen">Phân Quyền</Link> },
               ],
               },
             { 
@@ -71,14 +71,18 @@ const SidebarAdmin = (props) => {
               icon: <UploadOutlined />, 
               label: "Cài đặt" ,
                children: [
-                { key: "4-1", label: "API Key" },
-                { key: "4-2", label: "Cấu hình hệ thống" }
+                { key: "4-1", label: <Link to="/admin/api">API Key</Link> },
+                { key: "4-2", label: <Link to="/admin/cauhinhhethong">Cấu Hình Hệ Thống</Link> }
               ],
               },
               { 
               key: "5", 
               icon: <UploadOutlined />, 
-              label: <Link to="/admin/seo">SEO & Hiển thị</Link>,
+              label: "SEO & Hiển Thị" ,
+               children: [
+                { key: "4-1", label: <Link to="/admin/seo">Seo</Link> },
+                { key: "4-2", label: <Link to="/admin/banner">Cấu Hình Hệ Thống</Link> }
+              ],
               },
 
           ]}

@@ -27,28 +27,36 @@ const ViewDetailProduct =(props) =>{
       const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 useEffect(()=>{
   if(dataDetailProduct){
+console.log('dataDetailProduct filePath',dataDetailProduct
+)
+
+  }
+  
+  if(dataDetailProduct){
     let imgThumnail ={} ,imgSlide = []
-    if(dataDetailProduct.filePath){
-      imgThumnail = {
-        uid: uuidv4(),
-        name: dataDetailProduct.filePath,
-        status: 'done',
-        url: `${import.meta.env.VITE_BACKEND_URL}/upload/${dataDetailProduct.filePath}`,
-      }
-    }
-    if(dataDetailProduct.filePath && dataDetailProduct.filePath.length >0 ){
-      dataDetailProduct.filePath.map((item)=>{
+    // if(dataDetailProduct.anhChinh){
+    //   imgThumnail = {
+    //     uid: uuidv4(),
+    //     name: dataDetailProduct.anhChinh,
+    //     status: 'done',
+    //     url: `${import.meta.env.VITE_BACKEND_URL}${dataDetailProduct.anhChinh}`,
+    //   }
+    // }
+    if(dataDetailProduct.danhSachAnh && dataDetailProduct.danhSachAnh.length >0 ){
+      dataDetailProduct.danhSachAnh.map((item)=>{
         imgSlide.push({
           uid: uuidv4(),
-          name: item,
+          name: item.indexOrder,
           status: 'done',
-          url: `${import.meta.env.VITE_BACKEND_URL}/upload/${item}`,
+          url: `${import.meta.env.VITE_BACKEND_URL}${item.filePath}`,
         })
 
       })
 
     }
-    setFileList([imgThumnail, ...imgSlide])
+    // setFileList([imgThumnail, ...imgSlide])
+        setFileList([...imgSlide])
+
   }
 
 },[dataDetailProduct])
@@ -65,21 +73,21 @@ useEffect(()=>{
                     bordered
                     column={2}
                 >
-                    <Descriptions.Item label="Id">{dataDetailProduct?.ID}</Descriptions.Item>
-                    <Descriptions.Item label="thumbnail">{dataDetailProduct?.filePath}</Descriptions.Item>
+                    <Descriptions.Item label="Id">{dataDetailProduct?.id}</Descriptions.Item>
+                    <Descriptions.Item label="thumbnail">{dataDetailProduct?.anhChinh}</Descriptions.Item>
                    
-                    <Descriptions.Item label="mainText">{dataDetailProduct?.mainText}</Descriptions.Item>
-                    <Descriptions.Item label="category">{dataDetailProduct?.category}</Descriptions.Item>
+                    <Descriptions.Item label="mainText">{dataDetailProduct?.donViTinhID}</Descriptions.Item>
+                    <Descriptions.Item label="category">{dataDetailProduct?.giaBan}</Descriptions.Item>
 
                     {/* <Descriptions.Item label="Role" span={2}>
                         <Badge status="processing" text={dataDetailBook?.role} />
                     </Descriptions.Item> */}
                     <Descriptions.Item label="Created At">
-                        {moment(dataDetailProduct?.createdAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataDetailProduct?.ngayBatDau).format('DD-MM-YYYY hh:mm:ss')}
                     </Descriptions.Item>
-                    <Descriptions.Item label="Updated At">
+                    {/* <Descriptions.Item label="Updated At">
                         {moment(dataDetailProduct?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
-                    </Descriptions.Item>
+                    </Descriptions.Item> */}
                     {/* <Descriptions.Item label="slider">{dataDetailBook?.slider}</Descriptions.Item> */}
                     
                 </Descriptions>
@@ -96,7 +104,8 @@ useEffect(()=>{
       >
       
       </Upload>
-      {previewImage && (
+      {previewImage && ( 
+
         <Image
           wrapperStyle={{
             display: 'none',
@@ -108,6 +117,7 @@ useEffect(()=>{
           }}
           src={previewImage}
         />
+
       )}
             </Drawer>
         

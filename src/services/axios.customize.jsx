@@ -7,7 +7,8 @@ const instance = axios.create({
     withCredentials: true
 
   });
-  const refreshAxios  = axios.create({
+
+  const refreshAxios  = axios.create({ //taoj rieng ra de xu ly refresh tranh lap vo han
     baseURL:  import.meta.env.VITE_BACKEND_URL,
     withCredentials: true
 

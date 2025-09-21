@@ -30,6 +30,8 @@ import DashboardAdmin from "./pages/admin/Dashboard/DashboardAdmin";
 import SeoPage from "./pages/admin/SEO/SeoPage";
 import SanPham from "./pages/admin/SanPhamAdmin/SanPhamTable";
 import MyTextEditor from "./components/Quilleditor/MyTextEditor";
+import DonViAdmin from "./pages/admin/DonViAdmin/DonVi";
+import LoaiSanPhamAdmin from "./pages/admin/LoaiSanPhamAdmin/LoaiSanPham";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -109,6 +111,24 @@ export default function App() {
        
           </ProtectedRoute>,
           
+        },
+          { 
+          path: "donvi",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <DonViAdmin/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
+        },
+        { 
+          path: "loaisanpham",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <LoaiSanPhamAdmin/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
         },
          {
       
