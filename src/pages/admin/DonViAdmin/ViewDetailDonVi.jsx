@@ -3,19 +3,19 @@ import { Image,Badge, Button, Descriptions, Drawer, Upload } from 'antd';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
-const ViewDetailProduct =(props) =>{
+const ViewDetailDonVi =(props) =>{
 
     //xu ly slide
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([])
     //
-    const {setViewDetailProduct,viewDetailProduct,setDataDetailProduct,dataDetailProduct
+    const {setViewDetailDonVi,viewDetailDonVi,setDataDetailDonVi,dataDetailDonVi
     } = props
-    // console.log("check dataDetailBook>>>",dataDetailProduct)
+    // console.log("check dataDetailBook>>>",dataDetailDonVi)
     const onClose = () => {
-        setViewDetailProduct(false);
-        setDataDetailProduct(null);
+        setViewDetailDonVi(false);
+        setDataDetailDonVi(null);
     };
 
 
@@ -26,24 +26,24 @@ const ViewDetailProduct =(props) =>{
       };
       const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 useEffect(()=>{
-  if(dataDetailProduct){
-console.log('dataDetailProduct filePath',dataDetailProduct
+  if(dataDetailDonVi){
+console.log('dataDetailDonVi filePath',dataDetailDonVi
 )
 
   }
   
-  if(dataDetailProduct){
+  if(dataDetailDonVi){
     let imgThumnail ={} ,imgSlide = []
-    // if(dataDetailProduct.anhChinh){
+    // if(dataDetailDonVi.anhChinh){
     //   imgThumnail = {
     //     uid: uuidv4(),
-    //     name: dataDetailProduct.anhChinh,
+    //     name: dataDetailDonVi.anhChinh,
     //     status: 'done',
-    //     url: `${import.meta.env.VITE_BACKEND_URL}${dataDetailProduct.anhChinh}`,
+    //     url: `${import.meta.env.VITE_BACKEND_URL}${dataDetailDonVi.anhChinh}`,
     //   }
     // }
-    if(dataDetailProduct.danhSachAnh && dataDetailProduct.danhSachAnh.length >0 ){
-      dataDetailProduct.danhSachAnh.map((item)=>{
+    if(dataDetailDonVi.danhSachAnh && dataDetailDonVi.danhSachAnh.length >0 ){
+      dataDetailDonVi.danhSachAnh.map((item)=>{
         imgSlide.push({
           uid: uuidv4(),
           name: item.indexOrder,
@@ -59,34 +59,34 @@ console.log('dataDetailProduct filePath',dataDetailProduct
 
   }
 
-},[dataDetailProduct])
+},[dataDetailDonVi])
     return (
       <>
           <Drawer
                 title="Chức năng xem chi tiết"
                 width={"50vw"}
                 onClose={onClose}
-                open={viewDetailProduct}
+                open={viewDetailDonVi}
             >
                 <Descriptions
                     title="Thông tin user"
                     bordered
                     column={2}
                 >
-                    <Descriptions.Item label="Id">{dataDetailProduct?.id}</Descriptions.Item>
-                    <Descriptions.Item label="thumbnail">{dataDetailProduct?.anhChinh}</Descriptions.Item>
+                    <Descriptions.Item label="Id">{dataDetailDonVi?.id}</Descriptions.Item>
+                    <Descriptions.Item label="thumbnail">{dataDetailDonVi?.anhChinh}</Descriptions.Item>
                    
-                    <Descriptions.Item label="mainText">{dataDetailProduct?.donViTinhID}</Descriptions.Item>
-                    <Descriptions.Item label="category">{dataDetailProduct?.giaBan}</Descriptions.Item>
+                    <Descriptions.Item label="mainText">{dataDetailDonVi?.donViTinhID}</Descriptions.Item>
+                    <Descriptions.Item label="category">{dataDetailDonVi?.giaBan}</Descriptions.Item>
 
                     {/* <Descriptions.Item label="Role" span={2}>
                         <Badge status="processing" text={dataDetailBook?.role} />
                     </Descriptions.Item> */}
                     <Descriptions.Item label="Created At">
-                        {moment(dataDetailProduct?.ngayBatDau).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataDetailDonVi?.ngayBatDau).format('DD-MM-YYYY hh:mm:ss')}
                     </Descriptions.Item>
                     {/* <Descriptions.Item label="Updated At">
-                        {moment(dataDetailProduct?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
+                        {moment(dataDetailDonVi?.updatedAt).format('DD-MM-YYYY hh:mm:ss')}
                     </Descriptions.Item> */}
                     {/* <Descriptions.Item label="slider">{dataDetailBook?.slider}</Descriptions.Item> */}
                     
@@ -124,4 +124,4 @@ console.log('dataDetailProduct filePath',dataDetailProduct
       </>
     );
 }
-export default ViewDetailProduct;
+export default ViewDetailDonVi;

@@ -165,8 +165,23 @@ const CallDanhSachDonViPage = (query)=>{
     const URL_BACKEND = `/api/DonVi/DSDonViPage?`+query
     return axios.get(URL_BACKEND)
 }
+const ThemDonVi = (tenDonVi,mota)=>{
+    const URL_BACKEND = `/api/DonVi/ThemDonVi`
+    const data = {
+        tenDonVi,mota
+    }
+    return axios.post(URL_BACKEND,data)
+}
+const SuaDonVi = (donViTinhID,tenDonVi,mota)=>{
+    const URL_BACKEND = `/api/DonVi/SuaDonVi`
+    const data = {
+        donViTinhID,tenDonVi,mota
+    }
+    return axios.put(URL_BACKEND,data)
+}
+
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage
+,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi
 }

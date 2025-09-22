@@ -5,11 +5,11 @@ import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, Plus
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
-import ViewDetailProduct from './ViewDetailProduct';
 import DonViModalUpdate from './DonViModalUpdate';
 import DonViModalCreate from './DonViModalCreate';
 import './donViModalUpdate.scss'
 import * as XLSX from 'xlsx';
+import ViewDetailDonVi from './ViewDetailDonVi';
 
 
 
@@ -147,9 +147,13 @@ const columns = [
   },
   {
     title: 'ID',
+    dataIndex: 'donViTinhID',
+       
+
+
     render: (_, record, index) => {
         return (
-            <div><a href='#' 
+            <div><a href='#' rowKey={record.donViTinhID}
             onClick={
               ()=>{
                setViewDetailProduct(true)
@@ -227,7 +231,7 @@ const columns = [
             showTotal: (total,Range) => {return(<div>{Range[0]} - {Range[1]} trên {total} rows</div>)}
             }}
              />
-        <ViewDetailProduct
+        <ViewDetailDonVi
           dataUpdate={dataUpdate}
           setDataUpdate= {setDataUpdate}
           viewDetailProduct = {viewDetailProduct}
@@ -245,6 +249,8 @@ const columns = [
         <DonViModalCreate
           productModalCreate = {productModalCreate}
           setProductModalCreate = {setProductModalCreate}
+          dataUpdate = {dataUpdate}
+          fetchProduct={fetchProduct}
 
         />
   

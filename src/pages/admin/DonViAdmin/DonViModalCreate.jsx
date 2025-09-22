@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { callDonVids, callLoaiSanPhamds, ThemSanPhamAnhVaGia } from '../../../services/api.service';
+import { callDonVids, callLoaiSanPhamds, ThemDonVi, ThemSanPhamAnhVaGia } from '../../../services/api.service';
 
 import MyTextEditor from '../../../components/Quilleditor/MyTextEditor';
-//import { AddUserAPI } from '../../../services/api.service';
-// import { Form } from 'react-router-dom';
+
 
     const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -47,103 +46,29 @@ const DonViModalCreate = (props) => {
     const [dsLoaiSP, setDsLoaiSP] = useState()
     const [giaSauGiam,setGiaSauGiam] = useState(null)
     const [fileList,setFileList] = useState([])
-    const {productModalCreate,setProductModalCreate } = props
+    const {productModalCreate,setProductModalCreate,dataUpdate } = props
   
-
-
- const handleChange = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, url => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
-
-    const APILoaiSP = async() =>{
-      const res = await callLoaiSanPhamds()
-      if(res&& res.data){
-        console.log('check loai sp',res)
-        setDsLoaiSP(
-          res.data.map(item => ({
-            label:item.tenLoaiSanPham,
-            value:item.loaiSanPhamID
-          }))
-        )
-      }
-    }
-    const ApiDonViSP = async() =>{
-      const res = await callDonVids()
-      if(res&& res.data){
-        setDsDonvi(
-          res.data.map(item =>({
-            label:item.tenDonVi,
-            value:item.donViTinhID
-          }))
-        )
-      }
-    }
-    useEffect(()=>{
-      if(productModalCreate){
-      APILoaiSP()
-      ApiDonViSP()
-      }
-      
-    },[productModalCreate])
-
     const handleCancel = () =>{
       setProductModalCreate(false)
     }
     const onFinish = async (values)=>{{
-      console.log('check values img',values.files.fileList)
-      console.log('check fileslist',fileList)
-      const formData = new FormData();
-      formData.append("TenSanPham",values.TenSanPham)
-      formData.append("LoaiSanPhamID",values.LoaiSanPhamID)
-      formData.append("DonViTinhID",values.DonViTinhID)
-      formData.append("MoTa",values.MoTa)
-      formData.append("SoLuong",values.SoLuong)
-      formData.append("GiaBan",values.GiaBan)
-      formData.append("SalePercent",values.SalePercent)
-      fileList.forEach(item => {
-        formData.append("files",item.originFileObj)
-      });
-      const res = await ThemSanPhamAnhVaGia(formData)
+     
+      const res = await ThemDonVi(values.tenDonVi,values.mota)
       if(res && res?.data){
         notification.success({
-          message:'Thêm Sản phẩm',
+          message:'Thêm Đơn Vị',
           description:'Thành công'
         })
+        props.fetchProduct()
+        form.resetFields()
+        setProductModalCreate(false)
       }
-
     }}
-
-   
-    const onValuesChange = (changedValues,allValues) =>{
-    const giaBan = allValues.GiaBan || 0
-    const salePercent = allValues.SalePercent || 0;
-    const result = giaBan * (1 - salePercent / 100);
-    setGiaSauGiam(result)
-    }
- 
-
-
+  
   return (
     <>
    
-      <Modal title="Thêm Mới Người Dùng" 
+      <Modal title="Thêm Mới Đơn Vi" 
       open={productModalCreate} 
       // onOk={onFinish} 
       onCancel={handleCancel}
@@ -160,14 +85,14 @@ const DonViModalCreate = (props) => {
       autoComplete="off"
       onFinish={onFinish}
       
-      onValuesChange={onValuesChange}
+      // onValuesChange={onValuesChange}
       
       >
     <Row gutter={10}>
-    <Col span={12}>
+    <Col span={8}>
       <Form.Item
-        name="TenSanPham"
-        label="Tên sản phẩm"
+        name="tenDonVi"
+        label="Tên đơn vị"
         rules={[
           {
             required: true,
@@ -177,145 +102,20 @@ const DonViModalCreate = (props) => {
         <Input />
       </Form.Item>
       </Col>
-      <Col span={6}>
+       <Col span={16}>
       <Form.Item
-        name="LoaiSanPhamID"
-        label="Loại sản phẩm"
+        name="mota"
+        label="Mô Tả"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
       >
-     
-         <Select
-            defaultValue={''}
-            showSearch
-            allowClear
-           options={dsLoaiSP}
-          />
+        <Input />
       </Form.Item>
-      
-      </Col>
-      <Col span={6}>
-      <Form.Item
-        name="DonViTinhID"
-        label="Đơn vị"
-        // rules={[
-        //   {
-        //     required: true,
-        //   },
-        // ]}
-      >
-        <Select
-            defaultValue={''}
-            showSearch
-            allowClear
-           options={dsDonvi}
-          />
-      </Form.Item>
-      
-      </Col>
-      <Col span={6}>
-        <Form.Item
-          name="GiaBan"
-          label="Giá Bán"
-         // style={{ flex: 1 }} // Đảm bảo cột giãn đều
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <InputNumber
-            addonAfter="VND"
-            defaultValue={0}
-            min={0}
-            controls
-            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          />
-        </Form.Item>
       </Col>
 
-      <Col span={6}>
-        <Form.Item
-          name="SalePercent"
-          label="Giảm Giá"
-          min={0}
-          style={{ flex: 1 }} // Đảm bảo cột giãn đều
-        >
-          <InputNumber
-          
-            addonAfter="%"
-            defaultValue={0}
-            controls
-            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-           // style={{ width: "100%" }} // Input chiếm 100% chiều rộng
-          />
-        </Form.Item>
-      </Col>
-      <Col span={6}>
-        <Form.Item 
-          //  name="giaSauGiam"
-           label="Giá sau giảm"
-        >
-          <InputNumber
-              value={giaSauGiam}
-              min={0}
-              disabled
-              style={{width:"100%" ,color:'green'}}
-              formatter={(value) =>
-            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          }></InputNumber>
-        </Form.Item>
-        
-  
-          
-      </Col>
-      <Col span={6}>
-        <Form.Item
-          name="SoLuong"
-          label="Số lượng"         
-        >
-          <InputNumber
-            defaultValue={0}
-            min={0}
-            style={{ width: "100%" }} // Input chiếm 100% chiều rộng
-          />
-        </Form.Item>
-      </Col>
-      <Col span={24}>
-        <Form.Item
-        name="MoTa"
-        lable="Mô tả"
-        getValueFromEvent={(content) => content} // 👈 lấy content (HTML string) từ ReactQuill
-        >
-      <MyTextEditor/>
-        </Form.Item>
-        
-      </Col>
-
-      <Col span={12}>
-        <Form.Item
-          name="files"
-          label="Ảnh"
-        >
-         <Upload
-        listType="picture-card"
-        multiple={true}
-        maxCount={5}
-        beforeUpload={() => false} // không upload ngay
-        fileList={fileList}
-        onChange={({fileList})=>setFileList(fileList)}
-       onPreview={onPreview}
-
-        // onChange={handleChange}
-        
-
-      >
-     
-        <div>
-          {loading ? <LoadingOutlined /> : <PlusOutlined />}
-          <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-      </Upload>
-        </Form.Item>
-      </Col>
     </Row>
       <Space>
         </Space>
@@ -324,7 +124,7 @@ const DonViModalCreate = (props) => {
     <Button  onClick={() => { form.submit() }} type="primary">Submit</Button>
     <Button  
     htmlType="reset" 
-    onClick={()=>{form.resetFields(),setFileListThumbline([])}}>Reset</Button>
+    onClick={()=>{form.resetFields()}}>Reset</Button>
 </div>
 
       </Modal>
