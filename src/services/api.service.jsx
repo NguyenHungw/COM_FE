@@ -161,8 +161,12 @@ const SuaGiaSP = (sanPhamID, giaBan, salePercent) => {
     headers: {"Content-Type": "application/json"}
   })
 }
+const CallDanhSachDonViPage = (query)=>{
+    const URL_BACKEND = `/api/DonVi/DSDonViPage?`+query
+    return axios.get(URL_BACKEND)
+}
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP
+,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage
 }

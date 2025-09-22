@@ -30,7 +30,7 @@ import DashboardAdmin from "./pages/admin/Dashboard/DashboardAdmin";
 import SeoPage from "./pages/admin/SEO/SeoPage";
 import SanPham from "./pages/admin/SanPhamAdmin/SanPhamTable";
 import MyTextEditor from "./components/Quilleditor/MyTextEditor";
-import DonViAdmin from "./pages/admin/DonViAdmin/DonVi";
+import DonViAdmin from "./pages/admin/DonViAdmin/DonViTable";
 import LoaiSanPhamAdmin from "./pages/admin/LoaiSanPhamAdmin/LoaiSanPham";
 const Layout = () =>{
   return (
@@ -145,6 +145,18 @@ export default function App() {
      {
       
       path: "SanPham",
+      index:true,
+      element: (
+          <ProtectedRoute>
+            <SanPham/>
+          </ProtectedRoute>
+        ),
+      errorElement: <ErrorPage/>,
+     
+    },
+     {
+      
+      path: "message",
       index:true,
       element: (
           <ProtectedRoute>

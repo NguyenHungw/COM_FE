@@ -84,6 +84,11 @@ const SidebarAdmin = (props) => {
                 { key: "4-2", label: <Link to="/admin/banner">Cấu Hình Hệ Thống</Link> }
               ],
               },
+              { 
+              key: "5", 
+              icon: <UploadOutlined />, 
+              label: <Link to="/admin/message">Quản lý tin nhắn</Link> ,
+              },
 
           ]}
         />
