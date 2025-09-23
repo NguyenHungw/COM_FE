@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
-import { CallDanhSachDonViPage, callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaSPAnhGia } from '../../../services/api.service';
+import { CallDanhSachDonViPage, callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaDonVi, XoaSPAnhGia } from '../../../services/api.service';
 import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
@@ -61,7 +61,9 @@ const DonViAdmin = () => {
     // }
   }
     const HandleDelete = async (id)=>{
-      const res = await XoaSPAnhGia(id)
+      console.log('check id',id)
+      // return
+      const res = await XoaDonVi(id)
       if(res && res?.data){
         fetchProduct()
         notification.success({
@@ -199,7 +201,7 @@ const columns = [
               placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
-               onConfirm={() => { HandleDelete(record.id) }}
+               onConfirm={() => { HandleDelete(record.donViTinhID) }}
               onCancel={cancel}
               okText="Yes"
               cancelText="No"

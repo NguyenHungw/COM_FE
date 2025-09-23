@@ -179,9 +179,14 @@ const SuaDonVi = (donViTinhID,tenDonVi,mota)=>{
     }
     return axios.put(URL_BACKEND,data)
 }
+const XoaDonVi = (id) => {
+    const URL_BACKEND = `/api/DonVi/XoaDonVi?id=`+id
+    return axios.delete(URL_BACKEND)
+}
+
 
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
-,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi
+,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
 }
