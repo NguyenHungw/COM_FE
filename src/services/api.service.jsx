@@ -183,10 +183,33 @@ const XoaDonVi = (id) => {
     const URL_BACKEND = `/api/DonVi/XoaDonVi?id=`+id
     return axios.delete(URL_BACKEND)
 }
+// loai san pham 
 
-
+const CallDanhSachSanPhamPage = (query)=>{
+    const URL_BACKEND = `/api/LoaiSanPhami/DSLoaiSPPage?`+query
+    return axios.get(URL_BACKEND)
+}
+const ThemLoaiSanPham = (tenLoaiSanPham,moTaLoaiSP,trangThai)=>{
+    const URL_BACKEND = `/api/LoaiSanPhami/ThemLSP`
+    const data = {
+        tenLoaiSanPham,moTaLoaiSP,trangThai
+    }
+    return axios.post(URL_BACKEND,data)
+}
+const SuaLoaiSanPham = (loaiSanPhamID,tenLoaiSanPham,moTaLoaiSP,trangThai)=>{
+    const URL_BACKEND = `/api/LoaiSanPhami/SuaLSP`
+    const data = {
+        loaiSanPhamID,tenLoaiSanPham,moTaLoaiSP,trangThai
+    }
+    return axios.put(URL_BACKEND,data)
+}
+const XoaLoaiSanPham = (id) => {
+    const URL_BACKEND = `/api/LoaiSanPhami/XoaLSP?id=`+id
+    return axios.delete(URL_BACKEND)
+}
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
+,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham
 }
