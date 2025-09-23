@@ -77,23 +77,28 @@ const refreshUpdateModal = () =>{
     const handeClear = () =>{
       setNewFileList([])
     }
-    const handleEditImg = async (file) => {
+    const handleEditImg = async (file,old) => {
+      console.log('old',old)
 console.log('check inf',file)
 const formData = new FormData()
-formData.append("id",file.idPic)
-// form.append('files',file.)
+formData.append("id",old)
+formData.append('files',file)
 // return
-const res = await UpdateIMG()
-if(res && res?.data?.status ===1){
+const res = await UpdateIMG(formData)
+if(res && res?.data){
   notification.success({
-    message:res.data.message,
-    description:res.data.status
-  })
-  
+    message:"Cập nhật thành công",
+    description:res.data.status,
+  },
+  // setFileListIMG(null),
+   callIMG()
+)
+ 
+   props.fetchProduct()
 }
     }
   
-    const APIUploadIMG = async (file) => {
+  const APIUploadIMG = async (file) => {
   console.log("File mới:", file)
 
   const formData = new FormData()
@@ -314,10 +319,6 @@ let called = false
     }
       const handleRemoveImg= async(file) =>{
       console.log('check file',file.uid)
-                  //  setFileList(fileList.filter((f) => f.uid !== file.uid))
-    // const id = fileList.filter((f) => f.uid === file.uid)
-    // console.log('check id',id)
-                  //  return
       const res = await RemoveIMG(file.idPic)
       console.log('checl remove',res)
       if(res&&res?.data?.status === 1){
@@ -331,11 +332,6 @@ let called = false
       )
        
         props.fetchProduct();
-              // setFileListIMG(prev => prev.filter(f => f.uid !== file.uid));
-              
-                      
-
-          // props.fetchProduct();
       }else{
         notification.error({
           message:"Xóa hình ảnh",
@@ -561,7 +557,10 @@ let called = false
     }}
   />
   <button
-        onClick={() => setShowOptions(!showOptions)}
+    type="button" // rất quan trọng cần phải có để tách riêng với sự kiện onfinnish của antd tránh dùng chung
+
+  
+      onClick={() => setShowOptions(!showOptions)}
     style={{
       position: "absolute",
       top: 4,
@@ -590,6 +589,8 @@ let called = false
       }}>
        {/* Nút Xóa */}
           <button
+            type="button" // rất quan trọng
+
             onClick={()=>handleRemoveImg(file)}
               // setFileList(fileList.filter((f) => f.uid !== file.uid))
             
@@ -607,15 +608,17 @@ let called = false
             
              />
           </button>
-
-          {/* Nút Chỉnh sửa */}
-          {/* <Upload 
-          // type="file"
-             onClick={() => handleEditImg(file)}
+        
+          <Upload 
+          type="file"
+            
               showUploadList={false}
                multiple={false}
         maxCount={1}
-        beforeUpload={()=>{false}}
+        beforeUpload={(newfile) => {
+                    handleEditImg(newfile,file.idPic); // gọi API ngay khi chọn file
+                    return false; // ngăn AntD tự upload
+                  }}
             style={{
               background: "blue",
               border: "none",
@@ -627,7 +630,7 @@ let called = false
             }}
           >
             <EditOutlined />
-            </Upload> */}
+            </Upload>
     </div>
     
   )}

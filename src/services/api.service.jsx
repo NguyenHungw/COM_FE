@@ -131,7 +131,7 @@ const RemoveIMG =(id)=>{
 }
 const UpdateIMG =(formData)=>{
     const URL_BACKEND = `/api/SamPhamImage/SuaIMG`
-     return axios.post(URL_BACKEND,formData,{
+     return axios.put(URL_BACKEND,formData,{
         headers: { "Content-Type": "multipart/form-data" }, //chuyên để gửi form có file đính kèm (upload ảnh, pdf, video...).
     })
 
