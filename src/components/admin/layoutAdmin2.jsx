@@ -102,7 +102,7 @@ const LayoutAdmin2 = () => {
         {/* </Affix> */}
 
         <Content style={{ margin: "24px 16px", padding: 24, background: "#fff"}}>
-          Đây là nội dung dashboard
+        {/* middle */}
           <Outlet/>
                     {/* <Outlet/> */}
 

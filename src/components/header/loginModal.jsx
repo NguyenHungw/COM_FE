@@ -19,7 +19,7 @@ const [resgname,setResgame] = useState('')
 
 
 const loginGoogle = async()=>{
-    window.location.href = "https://localhost:2222/api/Google/login-google";
+window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/Google/login-google`;
 }
 const clearState = async()=>{
   setPassword('')

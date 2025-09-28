@@ -207,9 +207,23 @@ const XoaLoaiSanPham = (id) => {
     const URL_BACKEND = `/api/LoaiSanPhami/XoaLSP?id=`+id
     return axios.delete(URL_BACKEND)
 }
+const DanhSachNhomQuyen = (query) => {
+    const URL_BACKEND=`/api/NND/DanhSachNNDPage?`+query
+    return axios.get(URL_BACKEND)
+
+}
+const DanhSachChucNang = (query) => {
+    const URL_BACKEND = `/api/ChucNang/DSChucNangPage?`+query
+    return axios.get(URL_BACKEND)
+}
+const ChiTietNND = (query) => {
+    const URL_BACKEND = `/api/NND/ChiTietNNDPage?`+query
+    return axios.get(URL_BACKEND)
+}
+
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
-,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham
+,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND
 }

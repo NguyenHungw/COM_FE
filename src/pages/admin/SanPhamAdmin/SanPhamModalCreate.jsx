@@ -97,6 +97,7 @@ const SanPhamModalCreate = (props) => {
     }
     useEffect(()=>{
       if(productModalCreate){
+        console.log('check setDsLoaiSP',dsLoaiSP)
       APILoaiSP()
       ApiDonViSP()
       }
@@ -159,7 +160,6 @@ const SanPhamModalCreate = (props) => {
       layout="vertical" 
       autoComplete="off"
       onFinish={onFinish}
-      
       onValuesChange={onValuesChange}
       
       >

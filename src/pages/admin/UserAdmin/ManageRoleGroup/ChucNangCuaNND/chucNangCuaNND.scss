@@ -1,0 +1,9 @@
+.tablecss .ant-table { //tat border mac dinh cua table antd
+  border: none !important;
+}
+
+.tablecss {
+//   border: 1px solid red;
+  border-radius: 8px;
+  padding-bottom: 8px; /* đẩy Table lên một chút */
+}

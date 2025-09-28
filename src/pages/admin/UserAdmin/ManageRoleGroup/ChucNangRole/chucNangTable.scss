@@ -1,0 +1,7 @@
+.row-selected {
+  background-color: #e6f7ff !important; /* màu xanh nhạt */
+}
+/* tắt hiệu ứng hover cho tất cả row */
+.no-hover-row:hover {
+  background: none !important;
+}

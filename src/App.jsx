@@ -32,6 +32,7 @@ import SanPham from "./pages/admin/SanPhamAdmin/SanPhamTable";
 import MyTextEditor from "./components/Quilleditor/MyTextEditor";
 import DonViAdmin from "./pages/admin/DonViAdmin/DonViTable";
 import LoaiSanPhamAdmin from "./pages/admin/LoaiSanPhamAdmin/LoaiSanTable";
+import NhomNguoiDungHome from "./pages/admin/UserAdmin/ManageRoleGroup/NhomNguoiDungHome";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -122,6 +123,15 @@ export default function App() {
            errorElement: <ErrorPage/>,
         },
         { 
+          path: "nhomquyen",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <NhomNguoiDungHome/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
+        },
+          { 
           path: "loaisanpham",
           index: true,
           element: 
