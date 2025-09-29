@@ -7,6 +7,21 @@ import { useState } from "react"
 const NhomNguoiDungHome = ()=> {
       const [dataChucNang, setDataChucNang] = useState(null);
       const [chucNangCuaNhom, setChucNangCuaNhom] = useState(null)
+      // callback cập nhật khi tick checkbox
+const handleUpdatePermission = (newRecord) => {
+  setChucNangCuaNhom(newRecord);
+};
+
+
+  // Hàm để ChucNangCuaNND gọi khi lưu xong
+  const handleRefreshChucNang = () => {
+    // trigger reload lại bảng ChucNangTable
+    if (dataChucNang) {
+      // bạn có thể gọi lại ChiTietNND ở đây
+      // hoặc đơn giản là reset để ChucNangTable tự useEffect fetch lại
+      setDataChucNang({ ...dataChucNang });
+    }
+  };
 
     return (
         <>
@@ -17,6 +32,7 @@ const NhomNguoiDungHome = ()=> {
       dataChucNang={dataChucNang}
       chucNangCuaNhom = {chucNangCuaNhom}
       setChucNangCuaNhom= {setChucNangCuaNhom}
+
       
 
 
@@ -28,6 +44,10 @@ const NhomNguoiDungHome = ()=> {
       <ChucNangCuaNND 
       dataChucNang={dataChucNang}
       chucNangCuaNhom={chucNangCuaNhom}
+        onUpdatePermission={handleUpdatePermission}
+        onRefresh={handleRefreshChucNang}  
+
+
        />
             </div>
 

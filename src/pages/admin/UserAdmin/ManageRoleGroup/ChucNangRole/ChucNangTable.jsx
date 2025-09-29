@@ -107,7 +107,8 @@ const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
     
     return(
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span>Bảng Chức Năngx</span>
+      {console.log('chucnang cua nhom',dataChucNang)}
+      <span style={{size:20}}>{dataChucNang ? dataChucNang.tenNND : ""}</span>
       <span style={{ display: 'flex', gap: 15 }}>
 
           <Button

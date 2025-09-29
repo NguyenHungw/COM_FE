@@ -6,14 +6,14 @@ import { Image } from 'antd';
 
 // import './donViModalUpdate.scss'
 import * as XLSX from 'xlsx';
-import { DanhSachChucNang, DanhSachNhomQuyen } from '../../../../../services/api.service';
+import { ChiTietNND, DanhSachChucNang, DanhSachNhomQuyen, SuaCNCN } from '../../../../../services/api.service';
 import { render } from 'react-dom';
 
 
 //   import './chucNangTable.scss'
 
 
-const ChucNangCuaNND = (props) => {
+const ChucNangCuaNND = ({ dataChucNang,chucNangCuaNhom, onUpdatePermission,onRefresh }) => {
   
     // const [productModalCreate,setProductkModalCreate] = useState(false)
   const [productList, setProductList] = useState(null)
@@ -29,19 +29,76 @@ const ChucNangCuaNND = (props) => {
   const [pageSize, setPageSize] = useState(5)
   const [current,setCurrent] = useState(1)
   const  [selectRowKey ,setSelectRowKey] = useState(null)
-// 
 
+// 
+const [dataSource, setDataSource] = useState([]);
+
+   const fetchProduct = async ()=>{
+        if(dataChucNang){
+           let query=`page=${current}&size=${pageSize}&id=${dataChucNang.nndid}`;
+
+          const res = await ChiTietNND(query)
+           if(res&&res?.data){
+            console.log('check res',res.data)
+            console.log('totalrow',res.totalRow)
+            setTotal(res.totalRow)
+            setProductList(res.data)
+            console.log('check product list', productList)
+      
+        }
+        }
+         
+    }
+    //báo cho cha biết để refresh lại bảng trái
+const handleSaveCN = async()=>{
+  console.log('check cn',chucNangCuaNhom)
+  const res = await SuaCNCN(chucNangCuaNhom.id,chucNangCuaNhom.chucNangID,chucNangCuaNhom.nndid,chucNangCuaNhom.xem,chucNangCuaNhom.them,chucNangCuaNhom.sua,chucNangCuaNhom.xoa)
+  if(res && res?.status===1){
+    notification.success({message:'Lưu Thành Công'})
+    // setProductList(null)
+    if(onRefresh){
+onRefresh()
+    }
+  }
+}
+
+  const handleCheckboxChange = (e, dulieutruyenvao) => {
+    //              copy object hien tai   //cap nhat dung filed bi click  
+    const updated = { ...chucNangCuaNhom, [dulieutruyenvao]: e.target.checked };
+    onUpdatePermission(updated); // báo cho cha biết
+  };
 useEffect(() => {
-  if (props.chucNangCuaNhom) {
+  if (chucNangCuaNhom) {
     // Ép object thành array để Table đọc được
-    setProductList([props.chucNangCuaNhom]);
+    setProductList([chucNangCuaNhom]);
   } else {
     setProductList([]);
   }
-}, [props.chucNangCuaNhom]);
+}, [chucNangCuaNhom]);
 
-const onChangeXem = e => {
+const onChangeXem = (e,record) => {
+  // console.log(`checked = ${e.target.checked}`);
+  console.log('check onchange',e)
+    console.log('check record',record)
+
+  return
+  const updated = dataSource.map(item=>{
+    if(item.key == record.key) {
+      return {...item, xem: e.target.value}; //cập nhật cột xem
+    }
+    return item;
+  })
+  setDataSource(updated)
+};
+const onChangeThem = e => {
   console.log(`checked = ${e.target.checked}`);
+};
+const onChangeSua = e => {
+  console.log(`checked = ${e.target.checked}`);
+};
+const onChangeXoa = e => {
+  console.log(`checked = ${e.target.checked}`);
+  
 };
 
     //    const fetchProduct = async ()=>{
@@ -114,7 +171,7 @@ const onChangeXem = e => {
                 <Button
                     icon={<SaveOutlined />}
                     type="primary"
-                    onClick={()=>setProductModalCreate(true) }
+                    onClick={()=>handleSaveCN() }
                 >Lưu</Button>
                 <Button type='ghost' 
                 // onClick={() => fetchProduct()}
@@ -142,128 +199,53 @@ const filePath = `${import.meta.env.VITE_BACKEND_URL}/upload/${productList?.Anh}
 // console.log('fp',filePath)
 
 // console.log('product',productList?.filePath)
-
-const columns = [
-   {
-    //   title: 'STT',
-    //   //key: '_id',
-    //   render: (_, record, index) => {
-    //       return (
-    //           <div>{index + 1}</div>
-    //       )
-          
-    //   }
-      
-  },
-//   {
-//     title: 'ID',
-//     dataIndex: 'nndid',
-//     render: (_, record, index) => {
-//         return (
-//             <div><a href='#' rowKey={record.chucNangid}
-//             onClick={
-//               ()=>{
-//                setViewDetailProduct(true)
-//                setDataDetailProduct(record)
-//                console.log('check record',record)
-//               }
-//             }
-//             >{record.chucNangid}</a></div>
-//         )
-        
-//     }
-// },
-    
-  {
-    // title: 'Chức Năng',
-    dataIndex: 'xem',
-    key: 'xem',
-    // sorter:true
-     render:(value, record) => (
-      <Checkbox
-        checked={value} //nếu API trả về true thì tích, false thì bỏ
-        onChange={(e)=> onChangeXem(e,record)}
-       >
-      Xem
-      </Checkbox>
-     )
-  },
-   {
-    // title: 'Chức Năng',
-    dataIndex: 'them',
-    key: 'them',
-    // sorter:true
-     render:(value, record) => (
-      <Checkbox
-        checked={value} //nếu API trả về true thì tích, false thì bỏ
-        onChange={(e)=> onChangeXem(e,record)}
-       >
-      Thêm
-      </Checkbox>
-     )
-  },
-   {
-    // title: 'Chức Năng',
-    dataIndex: 'sua',
-    key: 'sua',
-    // sorter:true
-      render:(value, record) => (
-      <Checkbox
-        checked={value} //nếu API trả về true thì tích, false thì bỏ
-        onChange={(e)=> onChangeXem(e,record)}
-      >
-      Sửa
-      </Checkbox>
-     )
-  },
-   {
-    // title: 'Chức Năng',
-    dataIndex: 'xoa',
-    key: 'xoa',
-    // sorter:true
-      render:(value, record) => (
-      <Checkbox
-        checked={value} //nếu API trả về true thì tích, false thì bỏ
-        onChange={(e)=> onChangeXem(e,record)}
-      >
-      Xóa
-      </Checkbox>
-     )
-  },
-   {
-    //   title: "Action",
-      key: "action",
+  const columns = [
+    {
+      dataIndex: 'xem',
       render: (_, record) => (
-        <>
-        
-          <div style={{ display: "flex", gap: "20px" }}>
-          
-            {/* <EditOutlined
-              onClick={() => {
-                // console.log("check record",record)
-               setDataUpdate(record)
-               setIsUpdateProductModal(true)
-              }}
-              style={{ cursor: "pointer", color: "orange" }}
-            /> */}
-            <Popconfirm
-              placement="left"
-              title="Delete the task"
-              description="Are you sure to delete this task?"
-              onConfirm={() => { HandleDelete(record.donViTinhID) }}
-              onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
-            </Popconfirm>
-          </div>
-        </>
+        <Checkbox
+          checked={record.xem}
+          onChange={(e) => handleCheckboxChange(e, "xem")}
+        >
+          Xem
+        </Checkbox>
       )
-      
-  }
-];
-
+    },
+    {
+      dataIndex: 'them',
+      render: (_, record) => (
+        <Checkbox
+          checked={record.them}
+          onChange={(e) => handleCheckboxChange(e, "them")}
+        >
+          Thêm
+        </Checkbox>
+      )
+    },
+    {
+      dataIndex: 'sua',
+      render: (_, record) => (
+        
+        <Checkbox
+          checked={record.sua}
+          onChange={(e) => handleCheckboxChange(e, "sua")}
+        >
+          Sửa
+        </Checkbox>
+      )
+    },
+    {
+      dataIndex: 'xoa',
+      render: (_, record) => (
+        <Checkbox
+          checked={record.xoa}
+          onChange={(e) => handleCheckboxChange(e, "xoa")}
+        >
+          Xóa
+        </Checkbox>
+      )
+    }
+  ];
 
     return(
         <>

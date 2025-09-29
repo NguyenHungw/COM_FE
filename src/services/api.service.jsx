@@ -220,10 +220,22 @@ const ChiTietNND = (query) => {
     const URL_BACKEND = `/api/NND/ChiTietNNDPage?`+query
     return axios.get(URL_BACKEND)
 }
-
+const SuaCNCN = (id,chucNangID,nndid,xem,them,sua,xoa) => {
+    const data = {
+        idChucNangCuaNND: id,
+        chucNang: chucNangID,
+        nndid: nndid,
+        xem: xem,
+        them: them,
+        sua: sua,
+        xoa: xoa
+                }
+    const URL_BACKEND = `/api/ChucNangCuaNND/SuaCNCN`
+    return axios.put(URL_BACKEND,data)
+}
 
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
-,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND
+,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN
 }
