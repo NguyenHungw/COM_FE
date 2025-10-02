@@ -1,10 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { SuaNND } from '../../../../../services/api.service';
+import { ThemNhomChucNang } from '../../../../../services/api.service';
 
 
-const NhomNguoiDungUpdate = (props) => {
+
+
+    const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
+const beforeUpload = file => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+};
+ const onPreview = async file => {
+  // console.log('check preview',file.thumbUrl)
+   
+  };
+
+const ChucNangCreate = (props) => {
 
     const [description, setDescription] = useState("");
     const [form] = Form.useForm();
@@ -21,56 +46,31 @@ const NhomNguoiDungUpdate = (props) => {
     const [dsLoaiSP, setDsLoaiSP] = useState()
     const [giaSauGiam,setGiaSauGiam] = useState(null)
     const [fileList,setFileList] = useState([])
-    const [initForm, setInit] = useState(null)
-    const {updateProductModal,setIsUpdateProductModal,dataUpdate ,fetchProduct} = props
+    const {productModalCreate,setProductModalCreate,dataUpdate } = props
   
     const handleCancel = () =>{
-      setIsUpdateProductModal(false)
+      setProductModalCreate(false)
     }
-    const onFinish = async (values)=>{
-      console.log('check values ',values)
-     const formData = new FormData();
-      formData.append("NNDID",values.nndid)
-      formData.append("TenNND",values.tenNND)
-      formData.append("GhiChu",values.ghiChu)
-
-   
-      const res = await SuaNND(formData)
-      if(res&&res?.data){
-         notification.success({ 
-          message:"Sửa Thành công"
+    const onFinish = async (values)=>{{
+      // console.log('check values',values)
+    //  return
+      const res = await ThemNhomChucNang(values.tenChucNang)
+      if(res && res?.data){
+        notification.success({
+          message:'Thêm Chức Năng',
+          description:'Thành công'
         })
-        setIsUpdateProductModal(false)
-       form.resetFields()
-      await props.fetchProduct()
-      
+        props.fetchProduct()
+        form.resetFields()
+        setProductModalCreate(false)
       }
-    }
-    useEffect(()=>{
-     
-      if(updateProductModal){
-         console.log("check dataup",dataUpdate)
-       if(dataUpdate){
-        const init = ({
-          nndid : dataUpdate.nndid,
-          tenNND : dataUpdate.tenNND,
-          ghiChu : dataUpdate.ghiChu
-        })
-
-        setInit(init)
-        form.setFieldsValue(init)
-      }
-      }
-      
-      
-
-    },[updateProductModal])
+    }}
   
   return (
     <>
    
-      <Modal title="Cập Nhật Đơn Vi" 
-      open={updateProductModal} 
+      <Modal title="Thêm Mới Chức Năng" 
+      open={productModalCreate} 
       // onOk={onFinish} 
       onCancel={handleCancel}
       footer={null}
@@ -86,18 +86,14 @@ const NhomNguoiDungUpdate = (props) => {
       autoComplete="off"
       onFinish={onFinish}
       
-    
+      // onValuesChange={onValuesChange}
       
       >
     <Row gutter={10}>
-    <Col span={8}>
-     <Form.Item
-        name="nndid"
-        hidden
-      ></Form.Item>
+    <Col span={24}>
       <Form.Item
-        name="tenNND"
-        label="Tên Nhóm Người Dùng"
+        name="tenChucNang"
+        label="Tên Chức Năng"
         rules={[
           {
             required: true,
@@ -108,18 +104,9 @@ const NhomNguoiDungUpdate = (props) => {
       </Form.Item>
       </Col>
        <Col span={16}>
-      <Form.Item
-        name="ghiChu"
-        label="Mô Tả"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+
       </Col>
+
     </Row>
       <Space>
         </Space>
@@ -132,9 +119,11 @@ const NhomNguoiDungUpdate = (props) => {
 </div>
 
       </Modal>
-    
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
       
     </>
   );
 };
-export default NhomNguoiDungUpdate;
+export default ChucNangCreate;

@@ -6,10 +6,11 @@ import { Image } from 'antd';
 
 // import './donViModalUpdate.scss'
 import * as XLSX from 'xlsx';
-import { ChiTietNND, DanhSachChucNang, DanhSachNhomQuyen } from '../../../../../services/api.service';
+import { ChiTietNND, DanhSachChucNang, DanhSachNhomQuyen, XoaCNcuaNND } from '../../../../../services/api.service';
 
 
   import './chucNangTable.scss'
+import ChucNangCreate from './ChucNangCreate';
 
 
 const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
@@ -31,8 +32,9 @@ const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
 // 
 
     // const {dataChucNang,setDataChucNang } = props
+  
 
-    console.log('check chuc nang table',chucNangCuaNhom)
+    // console.log('check chuc nang table',chucNangCuaNhom)
     // return
        const fetchProduct = async ()=>{
         if(dataChucNang){
@@ -40,8 +42,8 @@ const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
 
           const res = await ChiTietNND(query)
            if(res&&res?.data){
-            console.log('check res',res.data)
-            console.log('totalrow',res.totalRow)
+            // console.log('check res',res.data)
+            // console.log('totalrow',res.totalRow)
             setTotal(res.totalRow)
             setProductList(res.data)
             console.log('check product list', productList)
@@ -75,18 +77,18 @@ const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
     //   setSortQuery(q);
     // }
   }
-    const HandleDelete = async (id)=>{
-      console.log('check id',id)
+    const HandleDelete = async (record)=>{
+      console.log('check id',record)
+      // return
       
-      return
-      const res = await XoaDonVi(id)
+      const res = await XoaCNcuaNND(record.nndid,record.chucNangID)
       if(res && res?.data){
-        fetchProduct()
+       
         notification.success({
           message:'xóa thành công',
           description:res.status
         },
-        
+         fetchProduct()
       )}
 
     }
@@ -100,17 +102,14 @@ const ChucNangTable = ({dataChucNang,chucNangCuaNhom,setChucNangCuaNhom }) => {
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       XLSX.writeFile(workbook, "MYSavedData.xlsx");
     }
-    
-    
   }
   const renderHeader=() => {
     
     return(
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {console.log('chucnang cua nhom',dataChucNang)}
+      {/* {console.log('chucnang cua nhom',dataChucNang)} */}
       <span style={{size:20}}>{dataChucNang ? dataChucNang.tenNND : ""}</span>
       <span style={{ display: 'flex', gap: 15 }}>
-
           <Button
               icon={<PlusOutlined />}
               type="primary"
@@ -154,7 +153,6 @@ const columns = [
     title: 'Chức Năng',
     dataIndex: 'tenChucNang',
     key: 'tenChucNang',
-    sorter:true
     // render: text => <a>{text}</a>,
   },
    {
@@ -169,7 +167,7 @@ const columns = [
               placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
-              onConfirm={() => { HandleDelete(record.donViTinhID) }}
+              onConfirm={() => { HandleDelete(record) }}
               onCancel={cancel}
               okText="Yes"
               cancelText="No"
@@ -187,7 +185,7 @@ const columns = [
     return(
         <>
         {/* <InputSearch/> */}
-        {console.table('last table',productList)}
+        {/* {console.table('last table',productList)} */}
         <div className='tableCN' style={{height:300}}>
 
             <Table
@@ -241,7 +239,13 @@ const columns = [
                 }}
               />
             </div>
-       
+       <ChucNangCreate
+       productModalCreate = {productModalCreate}
+       setProductModalCreate = {setProductModalCreate}
+       fetchProduct = {fetchProduct}
+       chucNangCuaNhom = {chucNangCuaNhom}
+       dataChucNang={dataChucNang}
+       />
         </>
     )
 }

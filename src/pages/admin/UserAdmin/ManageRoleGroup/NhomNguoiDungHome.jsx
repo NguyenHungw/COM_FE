@@ -8,6 +8,8 @@ const NhomNguoiDungHome = ()=> {
       const [dataChucNang, setDataChucNang] = useState(null);
       const [chucNangCuaNhom, setChucNangCuaNhom] = useState(null)
       // callback cập nhật khi tick checkbox
+
+      
 const handleUpdatePermission = (newRecord) => {
   setChucNangCuaNhom(newRecord);
 };
@@ -15,10 +17,8 @@ const handleUpdatePermission = (newRecord) => {
 
   // Hàm để ChucNangCuaNND gọi khi lưu xong
   const handleRefreshChucNang = () => {
-    // trigger reload lại bảng ChucNangTable
     if (dataChucNang) {
-      // bạn có thể gọi lại ChiTietNND ở đây
-      // hoặc đơn giản là reset để ChucNangTable tự useEffect fetch lại
+      // reset để ChucNangTable tự useEffect fetch lại
       setDataChucNang({ ...dataChucNang });
     }
   };
@@ -27,7 +27,7 @@ const handleUpdatePermission = (newRecord) => {
         <>
       
          <Row gutter={50}>
-      <Col span={12} style={{height:350 ,border: '1px solid blue' , borderRadius:8 } }>
+      <Col span={12} style={{height:500 ,border: '1px solid blue' , borderRadius:8 } }>
       <ChucNangTable 
       dataChucNang={dataChucNang}
       chucNangCuaNhom = {chucNangCuaNhom}
@@ -39,7 +39,7 @@ const handleUpdatePermission = (newRecord) => {
       /></Col>
 
       <Col span={12}>
-      <div className="tablecss" style={{ height:350,border: '1px solid blue' , borderRadius:8 }}>
+      <div className="tablecss" style={{ height:500,border: '1px solid blue' , borderRadius:8 }}>
 
       <ChucNangCuaNND 
       dataChucNang={dataChucNang}

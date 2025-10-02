@@ -33,6 +33,8 @@ import MyTextEditor from "./components/Quilleditor/MyTextEditor";
 import DonViAdmin from "./pages/admin/DonViAdmin/DonViTable";
 import LoaiSanPhamAdmin from "./pages/admin/LoaiSanPhamAdmin/LoaiSanTable";
 import NhomNguoiDungHome from "./pages/admin/UserAdmin/ManageRoleGroup/NhomNguoiDungHome";
+import ChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNangRole/ChucNangTable";
+import NhomChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNang/NhomChucNangTable";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -128,6 +130,15 @@ export default function App() {
           element: 
           <ProtectedRoute>
           <NhomNguoiDungHome/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
+        },
+         { 
+          path: "nhomchucnang",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <NhomChucNangTable/>
           </ProtectedRoute>,
            errorElement: <ErrorPage/>,
         },

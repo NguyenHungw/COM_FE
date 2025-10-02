@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { callDonVids, callLoaiSanPhamds, ThemDonVi, ThemSanPhamAnhVaGia } from '../../../services/api.service';
+import { ThemNND } from '../../../../../services/api.service';
 
-import MyTextEditor from '../../../components/Quilleditor/MyTextEditor';
 
 
     const getBase64 = (img, callback) => {
@@ -53,10 +52,10 @@ const NhomNguoiDungCreate = (props) => {
     }
     const onFinish = async (values)=>{{
      
-      const res = await ThemDonVi(values.tenDonVi,values.mota)
+      const res = await ThemNND(values.tenNND,values.ghiChu)
       if(res && res?.data){
         notification.success({
-          message:'Thêm Đơn Vị',
+          message:'Thêm Nhóm Người Dùng',
           description:'Thành công'
         })
         props.fetchProduct()
@@ -68,7 +67,7 @@ const NhomNguoiDungCreate = (props) => {
   return (
     <>
    
-      <Modal title="Thêm Mới Đơn Vi" 
+      <Modal title="Thêm Nhóm Người Dùng" 
       open={productModalCreate} 
       // onOk={onFinish} 
       onCancel={handleCancel}
@@ -91,8 +90,8 @@ const NhomNguoiDungCreate = (props) => {
     <Row gutter={10}>
     <Col span={8}>
       <Form.Item
-        name="tenDonVi"
-        label="Tên đơn vị"
+        name="tenNND"
+        label="Tên Nhóm Người Dùng"
         rules={[
           {
             required: true,
@@ -104,7 +103,7 @@ const NhomNguoiDungCreate = (props) => {
       </Col>
        <Col span={16}>
       <Form.Item
-        name="mota"
+        name="ghiChu"
         label="Mô Tả"
         rules={[
           {

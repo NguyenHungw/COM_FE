@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { SuaNND } from '../../../../../services/api.service';
+import { callDonVids, callLoaiSanPhamds, SuaDonVi, ThemSanPhamAnhVaGia } from '../../../services/api.service';
 
 
-const NhomNguoiDungUpdate = (props) => {
+const DonViModalUpdate = (props) => {
 
     const [description, setDescription] = useState("");
     const [form] = Form.useForm();
@@ -29,13 +29,8 @@ const NhomNguoiDungUpdate = (props) => {
     }
     const onFinish = async (values)=>{
       console.log('check values ',values)
-     const formData = new FormData();
-      formData.append("NNDID",values.nndid)
-      formData.append("TenNND",values.tenNND)
-      formData.append("GhiChu",values.ghiChu)
-
-   
-      const res = await SuaNND(formData)
+      // return
+      const res = await SuaDonVi(values.donViTinhID,values.tenDonVi,values.mota)
       if(res&&res?.data){
          notification.success({ 
           message:"Sửa Thành công"
@@ -52,9 +47,9 @@ const NhomNguoiDungUpdate = (props) => {
          console.log("check dataup",dataUpdate)
        if(dataUpdate){
         const init = ({
-          nndid : dataUpdate.nndid,
-          tenNND : dataUpdate.tenNND,
-          ghiChu : dataUpdate.ghiChu
+          donViTinhID : dataUpdate.donViTinhID,
+          tenDonVi : dataUpdate.tenDonVi,
+          mota : dataUpdate.mota
         })
 
         setInit(init)
@@ -92,12 +87,12 @@ const NhomNguoiDungUpdate = (props) => {
     <Row gutter={10}>
     <Col span={8}>
      <Form.Item
-        name="nndid"
+        name="donViTinhID"
         hidden
       ></Form.Item>
       <Form.Item
-        name="tenNND"
-        label="Tên Nhóm Người Dùng"
+        name="tenDonVi"
+        label="Tên đơn vị"
         rules={[
           {
             required: true,
@@ -109,7 +104,7 @@ const NhomNguoiDungUpdate = (props) => {
       </Col>
        <Col span={16}>
       <Form.Item
-        name="ghiChu"
+        name="mota"
         label="Mô Tả"
         rules={[
           {
@@ -137,4 +132,4 @@ const NhomNguoiDungUpdate = (props) => {
     </>
   );
 };
-export default NhomNguoiDungUpdate;
+export default DonViModalUpdate;

@@ -233,9 +233,65 @@ const SuaCNCN = (id,chucNangID,nndid,xem,them,sua,xoa) => {
     const URL_BACKEND = `/api/ChucNangCuaNND/SuaCNCN`
     return axios.put(URL_BACKEND,data)
 }
+const ThemNND = (tenNND,ghiChu) =>{
+    const data = {
+        tenNND:tenNND,
+        ghiChu:ghiChu
 
+    }
+    const URL_BACKEND = `/api/NND/ThemNND`
+    return axios.post(URL_BACKEND,data)
+}
+const XoaNND = (id) => {
+    const URL_BACKEND = `/api/NND/DeleteNND?id=`+id
+    return axios.delete(URL_BACKEND)
+}
+const SuaNND = (formData) => {
+
+    const URL_BACKEND =`/api/NND/SuaNND`
+    return axios.put(URL_BACKEND,formData)
+}
+const DanhSachNhomChucNang = (query) => {
+    const URL_BACKEND = `api/ChucNang/DSChucNangPage?`+query
+    return axios.get(URL_BACKEND)
+
+}
+const ThemNhomChucNang = (name) => {
+    const URL_BACKEND = `/api/ChucNang/ThemChucNang?namecn=`+name
+    return axios.post(URL_BACKEND)
+}
+const SuaNhomChucNang = (chucNangid,tenChucNang) => {
+    const data ={chucNangid,tenChucNang}
+    const URL_BACKEND =`/api/ChucNang/SuaChucNang`
+    return axios.put (URL_BACKEND,data)
+}
+const XoaNhomChucNang = (id) => {
+    const URL_BACKEND =`/api/ChucNang/XoaChucNang?id=`+id
+    return axios.delete(URL_BACKEND)
+}
+const DanhSachChucNangChuaCo = (query) => {
+    const URL_BACKEND =`/api/ChucNang/DSChucNangChuaCo?`+query
+    return axios.get(URL_BACKEND)
+}
+const ThemCNcuaNND = (cn,id) => {
+    const data ={
+        nndid: id,
+        chucNang: cn,
+        xem: false,
+        them: false,
+        sua: false,
+        xoa: false
+    }
+    const URL_BACKEND =`/api/ChucNangCuaNND/ThemChucNangCuaNND`
+    return axios.post(URL_BACKEND,data)
+}
+const XoaCNcuaNND = (idNND,idCN) => {
+    const URL_BACKEND = `/api/ChucNangCuaNND/XoaCNcuaNND?idNND=`+idNND+`&idCN=`+idCN
+    return axios.delete(URL_BACKEND)
+}
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
-,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN
+,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN ,ThemNND
+,XoaNND,SuaNND,DanhSachNhomChucNang,ThemNhomChucNang,SuaNhomChucNang,XoaNhomChucNang,DanhSachChucNangChuaCo,ThemCNcuaNND,XoaCNcuaNND
 }

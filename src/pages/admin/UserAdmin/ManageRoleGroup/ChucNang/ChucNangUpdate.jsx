@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { SuaNND } from '../../../../../services/api.service';
+import { SuaNhomChucNang } from '../../../../../services/api.service';
 
 
-const NhomNguoiDungUpdate = (props) => {
+const ChucNangUpdate = (props) => {
 
     const [description, setDescription] = useState("");
     const [form] = Form.useForm();
@@ -29,13 +29,8 @@ const NhomNguoiDungUpdate = (props) => {
     }
     const onFinish = async (values)=>{
       console.log('check values ',values)
-     const formData = new FormData();
-      formData.append("NNDID",values.nndid)
-      formData.append("TenNND",values.tenNND)
-      formData.append("GhiChu",values.ghiChu)
-
-   
-      const res = await SuaNND(formData)
+      
+      const res = await SuaNhomChucNang(values.chucNangid,values.tenChucNang)
       if(res&&res?.data){
          notification.success({ 
           message:"Sửa Thành công"
@@ -52,9 +47,8 @@ const NhomNguoiDungUpdate = (props) => {
          console.log("check dataup",dataUpdate)
        if(dataUpdate){
         const init = ({
-          nndid : dataUpdate.nndid,
-          tenNND : dataUpdate.tenNND,
-          ghiChu : dataUpdate.ghiChu
+          chucNangid : dataUpdate.chucNangid,
+          tenChucNang : dataUpdate.tenChucNang,
         })
 
         setInit(init)
@@ -69,7 +63,7 @@ const NhomNguoiDungUpdate = (props) => {
   return (
     <>
    
-      <Modal title="Cập Nhật Đơn Vi" 
+      <Modal title="Cập Nhật Chức Năng" 
       open={updateProductModal} 
       // onOk={onFinish} 
       onCancel={handleCancel}
@@ -90,14 +84,14 @@ const NhomNguoiDungUpdate = (props) => {
       
       >
     <Row gutter={10}>
-    <Col span={8}>
+    <Col span={24}>
      <Form.Item
-        name="nndid"
+        name="chucNangid"
         hidden
       ></Form.Item>
       <Form.Item
-        name="tenNND"
-        label="Tên Nhóm Người Dùng"
+        name="tenChucNang"
+        label="Tên Chức Năng"
         rules={[
           {
             required: true,
@@ -107,19 +101,7 @@ const NhomNguoiDungUpdate = (props) => {
         <Input />
       </Form.Item>
       </Col>
-       <Col span={16}>
-      <Form.Item
-        name="ghiChu"
-        label="Mô Tả"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      </Col>
+      
     </Row>
       <Space>
         </Space>
@@ -137,4 +119,4 @@ const NhomNguoiDungUpdate = (props) => {
     </>
   );
 };
-export default NhomNguoiDungUpdate;
+export default ChucNangUpdate;

@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
+import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
+import { CallDanhSachDonViPage, callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaDonVi, XoaSPAnhGia } from '../../../services/api.service';
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
-import './nhomNguoidungTable.scss'
-
-
-// import './donViModalUpdate.scss'
+import DonViModalUpdate from './DonViModalUpdate';
+import DonViModalCreate from './DonViModalCreate';
+import './donViModalUpdate.scss'
 import * as XLSX from 'xlsx';
-import { DanhSachNhomQuyen, XoaNND } from '../../../../../services/api.service';
-import ChucNangTable from '../ChucNangRole/ChucNangTable';
-import NhomNguoiDungCreate from './NhomNguoiDungCreate';
-import NhomNguoiDungUpdate from './NhomNguoiDungUpdate';
+import ViewDetailDonVi from './ViewDetailDonVi';
 
 
 
-
-const NhomNguoiDungTable = (props) => {
+const DonViAdmin = () => {
   
     // const [productModalCreate,setProductkModalCreate] = useState(false)
   const [productList, setProductList] = useState(null)
@@ -27,18 +23,15 @@ const NhomNguoiDungTable = (props) => {
   const [dataUpdate,setDataUpdate] = useState(null)
   const [updateProductModal,setIsUpdateProductModal] = useState(false)
   const [productModalCreate,setProductModalCreate] = useState(false)
-  const [chucNangModal,setChucNangModal] = useState(false)
 // phan trang
   const [total,setTotal] = useState(null)
   const [pageSize, setPageSize] = useState(5)
   const [current,setCurrent] = useState(1)
-  const [selectRowKey,setSelectRowKey] = useState(null)
 // 
-const [dataChucNang,setDataChucNang] = useState(null)
        const fetchProduct = async ()=>{
-          let query=`page=${current}&size=${pageSize}`;
+          let query=`p=${current}&s=${pageSize}`;
 
-        const res = await DanhSachNhomQuyen(query)
+        const res = await CallDanhSachDonViPage(query)
         {
            if(res && res?.data){
             // console.log('check ress',res.data)
@@ -69,8 +62,8 @@ const [dataChucNang,setDataChucNang] = useState(null)
   }
     const HandleDelete = async (id)=>{
       console.log('check id',id)
-      
-      const res = await XoaNND(id)
+      // return
+      const res = await XoaDonVi(id)
       if(res && res?.data){
         fetchProduct()
         notification.success({
@@ -100,15 +93,6 @@ const [dataChucNang,setDataChucNang] = useState(null)
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>Table List Users</span>
       <span style={{ display: 'flex', gap: 15 }}>
-      <div className='search' style={{display:'flex'}}>
-          <Input></Input>
-      <Button
-              icon={<SearchOutlined />}
-              // type="green"
-              // onClick={handleExport}
-          ></Button>
-      </div>
-    
           <Button
               icon={<ExportOutlined />}
               type="primary"
@@ -165,13 +149,13 @@ const columns = [
   },
   {
     title: 'ID',
-    dataIndex: 'nndid',
+    dataIndex: 'donViTinhID',
        
 
 
     render: (_, record, index) => {
         return (
-            <div><a href='#' rowKey={record.nndid}
+            <div><a href='#' rowKey={record.donViTinhID}
             onClick={
               ()=>{
                setViewDetailProduct(true)
@@ -179,22 +163,23 @@ const columns = [
                console.log('check record',record)
               }
             }
-            >{record.nndid}</a></div>
+            >{record.donViTinhID}</a></div>
         )
         
     }
 },
     
   {
-    title: 'Tên Nhóm Người Dùng',
-    dataIndex: 'tenNND',
-    key: 'tenNND',
+    title: 'Tên Đơn Vị',
+    dataIndex: 'tenDonVi',
+    key: 'tenDonVi',
+    sorter:true
     // render: text => <a>{text}</a>,
   },
   {
     title: 'Mô Tả',
-    dataIndex: 'ghiChu',
-    key: 'ghiChu',
+    dataIndex: 'mota',
+    key: 'mota',
     sorter:true
   },
  
@@ -203,17 +188,7 @@ const columns = [
       key: "action",
       render: (_, record) => (
         <>
-        
           <div style={{ display: "flex", gap: "20px" }}>
-          
-            <SettingOutlined
-              onClick={() => {
-                // console.log("check record",record)
-               setDataUpdate(record)
-               setChucNangModal(true)
-              }}
-              style={{ cursor: "pointer", color: "black" }}
-            />
             <EditOutlined
               onClick={() => {
                 // console.log("check record",record)
@@ -226,7 +201,7 @@ const columns = [
               placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
-               onConfirm={() => { HandleDelete(record.nndid) }}
+               onConfirm={() => { HandleDelete(record.donViTinhID) }}
               onCancel={cancel}
               okText="Yes"
               cancelText="No"
@@ -243,40 +218,13 @@ const columns = [
 
     return(
         <>
-        {/* <InputSearch/> */}
+        <InputSearch/>
             <Table
               title={renderHeader}
               columns={columns} 
               dataSource={productList}
               rowKey='id'
               onChange={handleOnchangePage}
-                onRow={(record,rowIndex)=>{
-                return {
-                    onClick: () => {
-                      if(selectRowKey === record.nndid){ // neeus click 2 lần cùng 1 row
-                        setSelectRowKey(null)
-                        // props.setDataChucNang([]);      
-                      }else {
-                        // lần click đầu tiên hoặc click row khác
-                        setSelectRowKey(record.nndid);
-                        props.setDataChucNang(record);
-                        props.setChucNangCuaNhom(null)
-                      }
-
-
-                      // }
-                      //   console.log("Bạn vừa click row:", record);
-                      //   setSelectRowKey(record.nndid)
-                      //   props.setDataChucNang(record)
-                      //   setDataChucNang(record)
-
-                    }
-                }
-                
-              }}
-              rowClassName={(record) =>
-              record.nndid === selectRowKey ? "row-selected" : ""}
-              
                pagination={{ 
             current: current,
             pageSize:pageSize, 
@@ -285,36 +233,30 @@ const columns = [
             showTotal: (total,Range) => {return(<div>{Range[0]} - {Range[1]} trên {total} rows</div>)}
             }}
              />
-        
-        {/* <ViewDetailDonVi
+        <ViewDetailDonVi
           dataUpdate={dataUpdate}
           setDataUpdate= {setDataUpdate}
           viewDetailProduct = {viewDetailProduct}
           setViewDetailProduct = {setViewDetailProduct}
           dataDetailProduct = {dataDetailProduct}
           setDataDetailProduct = {setDataDetailProduct}
-        /> */}
-        <NhomNguoiDungUpdate    
+        />
+        <DonViModalUpdate          
           dataUpdate = {dataUpdate}
           setDataUpdate = {setDataUpdate}
           updateProductModal = {updateProductModal}
           setIsUpdateProductModal = {setIsUpdateProductModal}
           fetchProduct={fetchProduct}
         />
-        <NhomNguoiDungCreate
+        <DonViModalCreate
           productModalCreate = {productModalCreate}
           setProductModalCreate = {setProductModalCreate}
           dataUpdate = {dataUpdate}
           fetchProduct={fetchProduct}
 
-        /> 
-             {/* click vào row thì truyền data tới cn table */}
-             {/* <ChucNangTable
-             dataChucNang = {dataChucNang}
-             setDataChucNang ={setDataChucNang}
-
-             /> */}
+        />
+  
         </>
     )
 }
-export default NhomNguoiDungTable;
+export default DonViAdmin;
