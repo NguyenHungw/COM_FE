@@ -61,7 +61,7 @@ const SidebarAdmin = (props) => {
               icon: <UploadOutlined />, 
               label: "Người dùng & Quyền hạn",
                children: [
-                { key: "3-1", label:  <Link to="/admin/user">Người Dùng</Link> },
+                { key: "3-1", label:  <Link to="/admin/manageuser">Người Dùng</Link> },
                 { key: "3-2", label: <Link to="/admin/nhomquyen">Nhóm Quyền</Link> },
                 { key: "3-3", label: <Link to="/admin/nhomchucnang">Nhóm Chức Năng</Link> },
               ],

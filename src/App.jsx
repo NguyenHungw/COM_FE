@@ -35,6 +35,7 @@ import LoaiSanPhamAdmin from "./pages/admin/LoaiSanPhamAdmin/LoaiSanTable";
 import NhomNguoiDungHome from "./pages/admin/UserAdmin/ManageRoleGroup/NhomNguoiDungHome";
 import ChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNangRole/ChucNangTable";
 import NhomChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNang/NhomChucNangTable";
+import UserTable from "./pages/admin/UserAdmin/ManageUser/UserTable";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -121,6 +122,15 @@ export default function App() {
           element: 
           <ProtectedRoute>
           <DonViAdmin/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
+        },
+        { 
+          path: "manageuser",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <UserTable/>
           </ProtectedRoute>,
            errorElement: <ErrorPage/>,
         },

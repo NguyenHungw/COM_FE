@@ -289,9 +289,31 @@ const XoaCNcuaNND = (idNND,idCN) => {
     const URL_BACKEND = `/api/ChucNangCuaNND/XoaCNcuaNND?idNND=`+idNND+`&idCN=`+idCN
     return axios.delete(URL_BACKEND)
 }
+const DanhSachUser = (query) => {
+    const URL_BACKEND =`/api/TK/DanhSachUser?`+query
+    return axios.get(URL_BACKEND)
+}
+const DanhSachNND = () => {
+    const URL_BACKEND =`/api/NND/DanhSachNND?page=1`
+    return axios.get(URL_BACKEND)
+}
+const UpdateUser = (userID,tenNND,phone,isActive,fullName,email,address)=>{
+    const URL_BACKEND = `api/TK/SuaUser`
+    const data ={
+        userID: userID,
+        fullName: fullName,
+        email: email,
+        phone: phone,
+        address: address,
+        isActive: isActive,
+        idnnd: tenNND
+    }
+        return axios.put(URL_BACKEND,data)
+}
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
 ,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN ,ThemNND
 ,XoaNND,SuaNND,DanhSachNhomChucNang,ThemNhomChucNang,SuaNhomChucNang,XoaNhomChucNang,DanhSachChucNangChuaCo,ThemCNcuaNND,XoaCNcuaNND
+,DanhSachUser,DanhSachNND,UpdateUser
 }

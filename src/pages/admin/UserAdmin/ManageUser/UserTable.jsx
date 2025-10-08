@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
-import { CallDanhSachDonViPage, callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaDonVi, XoaSPAnhGia } from '../../../services/api.service';
 import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
-import DonViModalUpdate from './DonViModalUpdate';
-import DonViModalCreate from './DonViModalCreate';
-import './donViModalUpdate.scss'
+
 import * as XLSX from 'xlsx';
-import ViewDetailDonVi from './ViewDetailDonVi';
+import { DanhSachUser } from '../../../../services/api.service';
+import { render } from 'react-dom';
+import UserModalUpdate from './UserModalUpdate';
 
 
 
-const DonViAdmin = () => {
+const UserTable = () => {
   
     // const [productModalCreate,setProductkModalCreate] = useState(false)
   const [productList, setProductList] = useState(null)
@@ -29,9 +28,9 @@ const DonViAdmin = () => {
   const [current,setCurrent] = useState(1)
 // 
        const fetchProduct = async ()=>{
-          let query=`p=${current}&s=${pageSize}`;
+          let query=`page=${current}&size=${pageSize}`;
 
-        const res = await CallDanhSachDonViPage(query)
+        const res = await DanhSachUser(query)
         {
            if(res && res?.data){
             // console.log('check ress',res.data)
@@ -62,7 +61,7 @@ const DonViAdmin = () => {
   }
     const HandleDelete = async (id)=>{
       console.log('check id',id)
-      // return
+      return
       const res = await XoaDonVi(id)
       if(res && res?.data){
         fetchProduct()
@@ -149,7 +148,7 @@ const columns = [
   },
   {
     title: 'ID',
-    dataIndex: 'donViTinhID',
+    dataIndex: 'userID',
        
 
 
@@ -163,26 +162,45 @@ const columns = [
                console.log('check record',record)
               }
             }
-            >{record.donViTinhID}</a></div>
+            >{record.userID}</a></div>
         )
         
     }
 },
     
   {
-    title: 'Tên Đơn Vị',
-    dataIndex: 'tenDonVi',
-    key: 'tenDonVi',
-    sorter:true
+    title: 'Tên Người Dùng',
+    dataIndex: 'fullName',
+    key: 'fullName',
     // render: text => <a>{text}</a>,
   },
   {
-    title: 'Mô Tả',
-    dataIndex: 'mota',
-    key: 'mota',
-    sorter:true
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
- 
+       {
+    title: 'Trạng Thái',
+    dataIndex: 'isActive',
+    key: 'isActive',
+        render: (isActive) => {
+    let color = isActive === 1 ? 'green' : 'volcano';
+    let text = isActive === 1 ? 'Hoạt động' : 'Không hoạt động';
+    return <Tag color={color}>{text}</Tag>;
+  }
+  },
+
+
+   {
+    title: 'Nhóm Người Dùng',
+    dataIndex: 'tenNND',
+    key: 'tenNND',
+    render:(tenNND) => {
+      if(tenNND==null){
+        return <Tag color='red'>Chưa có</Tag>
+      }else return  <Tag color='blue'>{tenNND}</Tag>
+    }
+  },
    {
       title: "Action",
       key: "action",
@@ -197,7 +215,7 @@ const columns = [
               }}
               style={{ cursor: "pointer", color: "orange" }}
             />
-            <Popconfirm
+            {/* <Popconfirm
               placement="left"
               title="Delete the task"
               description="Are you sure to delete this task?"
@@ -207,7 +225,7 @@ const columns = [
               cancelText="No"
             >
               <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />
-            </Popconfirm>
+            </Popconfirm> */}
           </div>
         </>
       )
@@ -233,7 +251,7 @@ const columns = [
             showTotal: (total,Range) => {return(<div>{Range[0]} - {Range[1]} trên {total} rows</div>)}
             }}
              />
-        <ViewDetailDonVi
+   {/*      <ViewDetailDonVi
           dataUpdate={dataUpdate}
           setDataUpdate= {setDataUpdate}
           viewDetailProduct = {viewDetailProduct}
@@ -241,22 +259,22 @@ const columns = [
           dataDetailProduct = {dataDetailProduct}
           setDataDetailProduct = {setDataDetailProduct}
         />
-        <DonViModalUpdate          
-          dataUpdate = {dataUpdate}
-          setDataUpdate = {setDataUpdate}
-          updateProductModal = {updateProductModal}
-          setIsUpdateProductModal = {setIsUpdateProductModal}
-          fetchProduct={fetchProduct}
-        />
+    
         <DonViModalCreate
           productModalCreate = {productModalCreate}
           setProductModalCreate = {setProductModalCreate}
           dataUpdate = {dataUpdate}
           fetchProduct={fetchProduct}
 
+        /> */}
+            <UserModalUpdate          
+          dataUpdate = {dataUpdate}
+          setDataUpdate = {setDataUpdate}
+          updateProductModal = {updateProductModal}
+          setIsUpdateProductModal = {setIsUpdateProductModal}
+          fetchProduct={fetchProduct}
         />
-  
         </>
     )
 }
-export default DonViAdmin;
+export default UserTable;

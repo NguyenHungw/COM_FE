@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Row, Select, Space, Upload, message } from 'antd';
 import { AlipayCircleFilled, DashOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { callDonVids, callLoaiSanPhamds, SuaDonVi, ThemSanPhamAnhVaGia } from '../../../services/api.service';
+import { DanhSachNND, UpdateUser } from '../../../../services/api.service';
 
 
-const DonViModalUpdate = (props) => {
+const UserModalUpdate = (props) => {
 
     const [description, setDescription] = useState("");
     const [form] = Form.useForm();
@@ -23,15 +23,28 @@ const DonViModalUpdate = (props) => {
     const [fileList,setFileList] = useState([])
     const [initForm, setInit] = useState(null)
     const {updateProductModal,setIsUpdateProductModal,dataUpdate ,fetchProduct} = props
+    const [danhSachNND,setDanhSachNND] = useState(null)
   
     const handleCancel = () =>{
       setIsUpdateProductModal(false)
     }
+    const fetchDsnnd = async ()=>{
+      const res = await DanhSachNND()
+      if(res&&res?.status===1)
+        setDanhSachNND(
+      res.data.map((item)=>({
+        label:item.tenNND,
+        value:item.nndid
+
+      }))
+        )
+    }
     const onFinish = async (values)=>{
       console.log('check values ',values)
-      // return
-      const res = await SuaDonVi(values.donViTinhID,values.tenDonVi,values.mota)
-      if(res&&res?.data){
+      const idnnd = danhSachNND.find(item => item.label === values.tenNND)?.value ?? Number(values.tenNND) ?? null;
+    
+      const res = await UpdateUser(values.userID,idnnd,values.phone,values.isActive,values.fullName,values.email,values.address)
+      if(res&&res?.status===1){
          notification.success({ 
           message:"Sửa Thành công"
         })
@@ -44,16 +57,21 @@ const DonViModalUpdate = (props) => {
     useEffect(()=>{
      
       if(updateProductModal){
+        fetchDsnnd()
          console.log("check dataup",dataUpdate)
+        //  return
        if(dataUpdate){
         const init = ({
-          donViTinhID : dataUpdate.donViTinhID,
-          tenDonVi : dataUpdate.tenDonVi,
-          mota : dataUpdate.mota
+          fullName : dataUpdate.fullName,
+          email : dataUpdate.email,
+          isActive : dataUpdate.isActive,
+          tenNND:dataUpdate.tenNND,
+          userID:dataUpdate.userID
         })
 
         setInit(init)
         form.setFieldsValue(init)
+        console.log('check init',init)
       }
       }
       
@@ -64,14 +82,13 @@ const DonViModalUpdate = (props) => {
   return (
     <>
    
-      <Modal title="Cập Nhật Đơn Vi" 
+      <Modal title="Cập Nhật Người Dùng" 
       open={updateProductModal} 
       // onOk={onFinish} 
       onCancel={handleCancel}
       footer={null}
       width={800}
       confirmLoading={isSubmit}
-
       >
       <DashOutlined/>
       <Form 
@@ -79,41 +96,105 @@ const DonViModalUpdate = (props) => {
       name="validateOnly" 
       layout="vertical" 
       autoComplete="off"
-      onFinish={onFinish}
-      
-    
-      
+      onFinish={onFinish}  
       >
     <Row gutter={10}>
     <Col span={8}>
-     <Form.Item
-        name="donViTinhID"
-        hidden
-      ></Form.Item>
+  
       <Form.Item
-        name="tenDonVi"
-        label="Tên đơn vị"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
+        name="email"
+        label="Email"
+      
       >
-        <Input />
+        <Input disabled />
       </Form.Item>
       </Col>
        <Col span={16}>
       <Form.Item
-        name="mota"
-        label="Mô Tả"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
+        name="Password"
+        label="Password"
+      >
+        <Input disabled />
+      </Form.Item>
+      
+      </Col>
+    </Row>
+    <Row gutter={8}>
+      <Col span={8}>
+        <Form.Item
+        name="fullName"
+        label="Tên Người Dùng"
+       
       >
         <Input />
       </Form.Item>
+      
+      </Col>
+      <Col span={8}>
+        <Form.Item
+        name="phone"
+        label="Số điện thoại"
+      >
+        <Input />
+      </Form.Item>
+      
+      </Col>
+         <Col span={8}>
+        <Form.Item
+        name="createAt"
+        label="Ngày tạo tài khoản"
+      >
+        <Input />
+      </Form.Item>
+      
+      </Col>
+        <Col span={24}>
+        <Form.Item
+        name="address"
+        label="Địa Chỉ"
+      >
+        <Input />
+      </Form.Item>
+      </Col>
+       <Col span={4}>
+        <Form.Item
+        name="userID"
+        label="ID"
+      >
+        <Input disabled/>
+      </Form.Item>
+      
+      </Col>
+      
+      
+       
+      <Col span={10}>
+        <Form.Item
+        name="tenNND"
+        label="Nhóm Người Dùng"
+      >
+           <Select
+                    defaultValue={name}
+                    showSearch
+                    allowClear
+                    options={danhSachNND}
+                  />
+      </Form.Item>
+      
+      </Col>
+       <Col span={10}>
+        <Form.Item
+        name="isActive"
+        label="Trạng Thái"
+        
+      >
+        <Select>
+    <Select.Option value={1}>Hoạt động</Select.Option>
+    <Select.Option value={0}>Không hoạt động</Select.Option>
+    <Select.Option value={3}>Tạm ngưng</Select.Option>
+  </Select>
+      </Form.Item>
+      
       </Col>
     </Row>
       <Space>
@@ -132,4 +213,4 @@ const DonViModalUpdate = (props) => {
     </>
   );
 };
-export default DonViModalUpdate;
+export default UserModalUpdate;

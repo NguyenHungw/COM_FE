@@ -45,7 +45,7 @@ const [refreshKey, setRefreshKey] = useState(0) // refresh cho hinh anh sau khi 
     if(res&& res?.data){
       console.log('res><><',res)
       const listIMG = res?.data.map((item,index)=>({
-         uid:String(item.id),      // thuoc tinh bat buoc cua antd dung lam key duy nhat de quan ly danh sach anh    
+      uid:String(item.id),      // thuoc tinh bat buoc cua antd dung lam key duy nhat de quan ly danh sach anh    
       name:item.filePath.split("/").pop(), //lấy tên file
       status: "done",
       url:`${import.meta.env.VITE_BACKEND_URL}${item?.filePath}`,
