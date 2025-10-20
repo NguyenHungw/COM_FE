@@ -1,26 +1,32 @@
-
 import './guarantee.scss'
+
 const Guarantee = () => {
-    return (
-        <>
-        <div className="guarantee-container">
-            <div className="info-first">
-                <i class="fas fa-leaf"></i>
-                <h3>Nguyên Liệu Sạch</h3>
-                <p class="text-gray-600">Cốm được làm từ lúa nếp non trồng tại đồng quê Bắc Bộ, không chất bảo quản</p>
-            </div>
-            <div className="info-second">
-                <i class="fas fa-history"></i>
-                <h3>Truyền thống 100 năm</h3>
-                <p class="text-gray-600">Công thức gia truyền được giữ gìn qua nhiều thế hệ</p>
-            </div>
-            <div className="info-third">
-                <i class="fas fa-truck"></i>
-                <h3>Giao hàng nhanh</h3>
-                <p class="text-gray-600">Giao hàng toàn quốc trong 1-3 ngày, miễn phí với đơn trên 300k</p>
-            </div>
-        </div>
-        </>
-    )
+  return (
+    <div className="guarantee-container">
+      <div className="guarantee-item">
+        <i className="fas fa-leaf icon"></i>
+        <h3>Nguyên Liệu Sạch</h3>
+        <p>Cốm được làm từ lúa nếp non trồng tại đồng quê,không chất bảo quản</p>
+      </div>
+
+      <div className="guarantee-item">
+        <i className="fas fa-history icon"></i>
+        <h3>Truyền Thống 100 Năm</h3>
+        <p>Công thức gia truyền được giữ gìn qua nhiều thế hệ</p>
+      </div>
+
+      <div className="guarantee-item">
+        <i className="fas fa-truck icon"></i>
+        <h3>Giao Hàng Nhanh</h3>
+        <p>Giao hàng toàn quốc trong 1-3 ngày, miễn phí với đơn trên 300k</p>
+      </div>
+       <div className="guarantee-item">
+        <i className="fas fa-truck icon"></i>
+        <h3>Giao Hàng Nhanh</h3>
+        <p>Giao hàng toàn quốc trong 1-3 ngày, miễn phí với đơn trên 300k</p>
+      </div>
+    </div>
+  )
 }
+
 export default Guarantee

@@ -310,10 +310,33 @@ const UpdateUser = (userID,tenNND,phone,isActive,fullName,email,address)=>{
     }
         return axios.put(URL_BACKEND,data)
 }
+const getAllMessage = (query) => {
+    const URL_BACKEND =`/api/chat/GetAllTinNhan?`+query
+    return axios.get(URL_BACKEND)
+}
+const getAllMessageRoom = (query) => {
+     const URL_BACKEND =`/api/chat/LichSuTinNhan?`+query
+    return axios.get(URL_BACKEND)
+}
+const sendMessGR = (roomID,fromUserID,message) =>{
+    const URL_BACKEND =`/api/chat/sendGR`
+     const data = {
+    roomID,
+    fromUserID,
+    message,
+    sentAt: new Date().toISOString()
+
+  };
+    return axios.post(URL_BACKEND,data)
+}
+const createRoom = (id) =>{
+    const URL_BACKEND = `/api/chat/CreateRoom?UserID=`+id
+    return axios.post(URL_BACKEND)
+}
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
 ,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN ,ThemNND
 ,XoaNND,SuaNND,DanhSachNhomChucNang,ThemNhomChucNang,SuaNhomChucNang,XoaNhomChucNang,DanhSachChucNangChuaCo,ThemCNcuaNND,XoaCNcuaNND
-,DanhSachUser,DanhSachNND,UpdateUser
+,DanhSachUser,DanhSachNND,UpdateUser,getAllMessage,getAllMessageRoom,sendMessGR,createRoom
 }

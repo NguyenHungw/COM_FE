@@ -101,7 +101,7 @@ const LayoutAdmin2 = () => {
           </Header>
         {/* </Affix> */}
 
-        <Content style={{ margin: "24px 16px", padding: 24, background: "#fff"}}>
+        <Content style={{borderRadius:10 , margin: "24px 16px", padding: 24, background: "#fff"}}>
         {/* middle */}
           <Outlet/>
                     {/* <Outlet/> */}

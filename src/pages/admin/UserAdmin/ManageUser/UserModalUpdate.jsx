@@ -64,6 +64,7 @@ const UserModalUpdate = (props) => {
         const init = ({
           fullName : dataUpdate.fullName,
           email : dataUpdate.email,
+          createAt: dataUpdate.createAt,
           isActive : dataUpdate.isActive,
           tenNND:dataUpdate.tenNND,
           userID:dataUpdate.userID

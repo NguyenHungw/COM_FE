@@ -8,10 +8,21 @@ import HeroBanner from "../heroBanner";
 import ProductCart from "../productCart";
 import ProductList from "../productList";
 import Guarantee from "../guarantee";
+import ChatBubble from "../ChatBubble/ChatBubble";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+       const rawRole = useSelector(state => state.account);
+       console.log('check raw',rawRole)
+  
   return (
+
+    
     <div className="home-layout">
+  {rawRole?.user?.role === "User" && <ChatBubble />}
+
+        
+
      <HeroBanner />
        <Guarantee/>
     {/* <ProductCart /> */}

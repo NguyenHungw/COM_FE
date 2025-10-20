@@ -3,9 +3,14 @@ import { useState } from "react";
 import { Breadcrumb, Button, Dropdown, Layout, Menu, notification, Select, Space, theme } from 'antd';
 
 import {
+  CommentOutlined,
+  DashboardOutlined,
   ProductOutlined,
+  SettingOutlined,
   UploadOutlined,
-  UserOutlined
+  UsergroupAddOutlined,
+  UserOutlined,
+  WechatWorkOutlined
 } from '@ant-design/icons';
 import Header from "../../header";
 import { callLogOutAccount } from "../../../services/api.service";
@@ -18,8 +23,20 @@ const SidebarAdmin = (props) => {
   
 
     const [collapsed, setCollapsed] = useState(false);
+    const [openKeys, setOpenKeys] = useState(["1","2", "3","4","5"]); // menu mở mặc định
+
     console.log('check prop side bar',props.user)
 
+
+     const handleMouseEnter = () => {
+    setCollapsed(false);
+    setOpenKeys(["2", "3", "4"]); // mở tất cả khi expand
+  };
+
+  const handleMouseLeave = () => {
+    setCollapsed(true);
+    setOpenKeys([]); // đóng khi collapse
+  };
     return(
          <Layout style={{ minHeight: "100vh" }}>
       {/* Sidebar cố định */}
@@ -37,15 +54,20 @@ const SidebarAdmin = (props) => {
           height: "100vh",
           background:'white'
         }}
+        //onMouseEnter={handleMouseEnter} //nếu chuột di chuyển vào vùng thì set lại
+        //onMouseLeave={handleMouseLeave}
+
       
       >
         <div className="demo-logo-vertical" />
         <Menu
+        openKeys={["1","2", "3","4","5"]} // luôn mở sẵn theo key
+
           theme="white"
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={[
-            { key: "1", icon: <UserOutlined />, label: <Link to="">Dashboard</Link>},
+            { key: "1", label: <Link to="" style={{ fontSize: '22px', fontWeight: 600, alignSelf:'center'}}>Dashboard</Link> },
             {
               key: "2",
               icon: <ProductOutlined />,
@@ -58,7 +80,7 @@ const SidebarAdmin = (props) => {
             },
             { 
               key: "3",
-              icon: <UploadOutlined />, 
+              icon: <UsergroupAddOutlined />, 
               label: "Người dùng & Quyền hạn",
                children: [
                 { key: "3-1", label:  <Link to="/admin/manageuser">Người Dùng</Link> },
@@ -68,27 +90,20 @@ const SidebarAdmin = (props) => {
               },
             { 
               key: "4", 
-              icon: <UploadOutlined />, 
+              icon: <SettingOutlined />, 
               label: "Cài đặt" ,
                children: [
                 { key: "4-1", label: <Link to="/admin/api">API Key</Link> },
-                { key: "4-2", label: <Link to="/admin/cauhinhhethong">Cấu Hình Hệ Thống</Link> }
+                { key: "4-2", label: <Link to="/admin/cauhinhhethong">Cấu Hình Hệ Thống</Link> },
+                { key: "4-3", label: <Link to="/admin/seo">Seo</Link> }
               ],
               },
               { 
               key: "5", 
-              icon: <UploadOutlined />, 
-              label: "SEO & Hiển Thị" ,
-               children: [
-                { key: "4-1", label: <Link to="/admin/seo">Seo</Link> },
-                { key: "4-2", label: <Link to="/admin/banner">Cấu Hình Hệ Thống</Link> }
-              ],
-              },
-              { 
-              key: "5", 
-              icon: <UploadOutlined />, 
+              icon: <CommentOutlined />,
               label: <Link to="/admin/message">Quản lý tin nhắn</Link> ,
               },
+            
 
           ]}
         />

@@ -36,6 +36,7 @@ import NhomNguoiDungHome from "./pages/admin/UserAdmin/ManageRoleGroup/NhomNguoi
 import ChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNangRole/ChucNangTable";
 import NhomChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNang/NhomChucNangTable";
 import UserTable from "./pages/admin/UserAdmin/ManageUser/UserTable";
+import ChatMessage from "./pages/admin/ChatMessage/chatMessage";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -175,6 +176,29 @@ export default function App() {
     },
      {
       
+      path: "api",
+      index:true,
+      element: (
+          <ProtectedRoute>
+            <SeoPage />
+          </ProtectedRoute>
+        ),
+      errorElement: <ErrorPage/>,
+     
+    },
+     {
+      
+      path: "cauhinhhethong",
+      index:true,
+      element: (
+          <ProtectedRoute>
+            <SeoPage />
+          </ProtectedRoute>
+        ),
+      errorElement: <ErrorPage/>,
+    },
+     {
+      
       path: "SanPham",
       index:true,
       element: (
@@ -191,7 +215,7 @@ export default function App() {
       index:true,
       element: (
           <ProtectedRoute>
-            <SanPham/>
+            <ChatMessage/>
           </ProtectedRoute>
         ),
       errorElement: <ErrorPage/>,
