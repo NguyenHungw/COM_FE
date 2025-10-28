@@ -88,18 +88,27 @@ const SidebarAdmin = (props) => {
                 { key: "3-3", label: <Link to="/admin/nhomchucnang">Nhóm Chức Năng</Link> },
               ],
               },
+               { 
+              key: "4",
+              icon: <UsergroupAddOutlined />, 
+              label: "Quản lý đơn hàng",
+               children: [
+                { key: "4-1", label:  <Link to="/admin/donhang">Đơn Hàng</Link> },
+             
+              ],
+              },
             { 
-              key: "4", 
+              key: "5", 
               icon: <SettingOutlined />, 
               label: "Cài đặt" ,
                children: [
-                { key: "4-1", label: <Link to="/admin/api">API Key</Link> },
-                { key: "4-2", label: <Link to="/admin/cauhinhhethong">Cấu Hình Hệ Thống</Link> },
-                { key: "4-3", label: <Link to="/admin/seo">Seo</Link> }
+                { key: "5-1", label: <Link to="/admin/api">API Key</Link> },
+                { key: "5-2", label: <Link to="/admin/cauhinhhethong">Cấu Hình Hệ Thống</Link> },
+                { key: "5-3", label: <Link to="/admin/seo">Seo</Link> }
               ],
               },
               { 
-              key: "5", 
+              key: "6", 
               icon: <CommentOutlined />,
               label: <Link to="/admin/message">Quản lý tin nhắn</Link> ,
               },

@@ -18,6 +18,7 @@
     "antd": "^5.26.5",
     "axios": "^1.10.0",
     "com-app": "file:",
+    "libphonenumber-js": "^1.12.25",
     "moment": "^2.30.1",
     "quill": "^2.0.3",
     "react": "18.3.1",

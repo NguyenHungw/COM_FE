@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { CallDanhSachSanPhamPage, XoaLoaiSanPham } from "../../../services/api.service"
-import { Button, message, notification, Popconfirm, Table, Space, Tag } from "antd"
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Button, message, notification, Popconfirm, Table, Space, Tag, Input } from "antd"
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 
 import * as XLSX from 'xlsx';
 import InputSearch from "./InputSearch";
@@ -89,6 +89,12 @@ const LoaiSanPhamTable = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>Table List Users</span>
       <span style={{ display: 'flex', gap: 15 }}>
+             <div className='search-container' style={{display:'flex'}}>
+        <Input style={{width:500}}/>
+        <Button
+          icon={<SearchOutlined />}
+        />
+      </div>
           <Button
               icon={<ExportOutlined />}
               type="primary"
@@ -227,7 +233,7 @@ const columns = [
 
     return(
         <>
-        <InputSearch/>
+        {/* <InputSearch/> */}
             <Table
               title={renderHeader}
               columns={columns} 

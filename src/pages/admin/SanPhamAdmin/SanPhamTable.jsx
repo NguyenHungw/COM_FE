@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, Input, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
 import { callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaSPAnhGia } from '../../../services/api.service';
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
@@ -104,8 +104,14 @@ const SanPhamTable = () => {
     
     return(
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span>Table List Users</span>
+      <span style={{fontWeight:'bold'}} >Sản Phẩm</span>
       <span style={{ display: 'flex', gap: 15 }}>
+             <div className='search-container' style={{display:'flex'}}>
+        <Input style={{width:500}}/>
+        <Button
+          icon={<SearchOutlined />}
+        />
+      </div>
           <Button
               icon={<ExportOutlined />}
               type="primary"
@@ -280,7 +286,7 @@ const columns = [
 
     return(
         <>
-        <InputSearch/>
+        {/* <InputSearch/> */}
             <Table
               title={renderHeader}
               columns={columns} 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, Input, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
 import { CallDanhSachDonViPage, callDanhSachSPAdmin_NhieuIMG, getProductsAdminAPI, getProductsAPI, XoaDonVi, XoaSPAnhGia } from '../../../services/api.service';
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
@@ -93,6 +93,12 @@ const DonViAdmin = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>Table List Users</span>
       <span style={{ display: 'flex', gap: 15 }}>
+             <div className='search-container' style={{display:'flex'}}>
+        <Input style={{width:500}}/>
+        <Button
+          icon={<SearchOutlined />}
+        />
+      </div>
           <Button
               icon={<ExportOutlined />}
               type="primary"
@@ -189,6 +195,7 @@ const columns = [
       render: (_, record) => (
         <>
           <div style={{ display: "flex", gap: "20px" }}>
+          
             <EditOutlined
               onClick={() => {
                 // console.log("check record",record)
@@ -218,7 +225,7 @@ const columns = [
 
     return(
         <>
-        <InputSearch/>
+        {/* <InputSearch/> */}
             <Table
               title={renderHeader}
               columns={columns} 

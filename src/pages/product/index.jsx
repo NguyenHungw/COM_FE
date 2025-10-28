@@ -1,7 +1,11 @@
+// import ProductCart from ;
+
+import ProductCart from "../../components/productCart";
+
 const Product = () => {
     return (
         <>
-        Product
+        <ProductCart/>
         </>
     )
 }

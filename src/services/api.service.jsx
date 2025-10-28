@@ -333,10 +333,29 @@ const createRoom = (id) =>{
     const URL_BACKEND = `/api/chat/CreateRoom?UserID=`+id
     return axios.post(URL_BACKEND)
 }
+const DanhSachDonHang = (query) =>{
+    const URL_BACKEND =`/api/ThanhToan/getDanhSachDH?`+query
+    return axios.get(URL_BACKEND)
+}
+const ChiTietDonHangAddress = (orderID) => {
+    const URL_BACKEND = `/api/DonHang/getChiTietDonHangAddress?orderID=`+orderID
+    return axios.get(URL_BACKEND)
+}
+const AddressByOrderID = (orderID) => {
+    const URL_BACKEND = `/api/DonHang/getAddressByOrderID?orderID=`+orderID
+    return axios.get(URL_BACKEND)
+}
+const TrangThaiDonHang = (orderid,trangthai) => {
+
+    const URL_BACKEND = `/api/ThanhToan/TrangThaiDonHang?OrderID=${orderid}&id=${trangthai}`
+    return axios.put(URL_BACKEND)
+}
+
 export {loginUserAPI,callLogOutAccount,getProductsAPI,getloginGoogleAPI,readCookies,getInfoAcessAPI
 ,loginNormalAPI,cartAPI,callFetchAccount,getProductsAdminAPI,callLoaiSanPhamds,callDonVids,ThemSanPhamAnhVaGia,callDanhSachSPAdmin_NhieuIMG
 ,XoaSPAnhGia,DoiViTriHinhAnh,UploadIMG,RemoveIMG,UpdateIMG,ChiTietIMG,SuaSP,SuaGiaSP,CallDanhSachDonViPage,ThemDonVi,SuaDonVi,XoaDonVi
 ,CallDanhSachSanPhamPage,ThemLoaiSanPham,SuaLoaiSanPham,XoaLoaiSanPham,DanhSachNhomQuyen,DanhSachChucNang,ChiTietNND,SuaCNCN ,ThemNND
 ,XoaNND,SuaNND,DanhSachNhomChucNang,ThemNhomChucNang,SuaNhomChucNang,XoaNhomChucNang,DanhSachChucNangChuaCo,ThemCNcuaNND,XoaCNcuaNND
-,DanhSachUser,DanhSachNND,UpdateUser,getAllMessage,getAllMessageRoom,sendMessGR,createRoom
+,DanhSachUser,DanhSachNND,UpdateUser,getAllMessage,getAllMessageRoom,sendMessGR,createRoom,DanhSachDonHang,ChiTietDonHangAddress
+,AddressByOrderID,TrangThaiDonHang
 }

@@ -37,6 +37,7 @@ import ChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNangRole/
 import NhomChucNangTable from "./pages/admin/UserAdmin/ManageRoleGroup/ChucNang/NhomChucNangTable";
 import UserTable from "./pages/admin/UserAdmin/ManageUser/UserTable";
 import ChatMessage from "./pages/admin/ChatMessage/chatMessage";
+import DonHangTable from "./pages/admin/DonHang/DonHangTable";
 const Layout = () =>{
   return (
     <div className='layout-app'>      
@@ -132,6 +133,15 @@ export default function App() {
           element: 
           <ProtectedRoute>
           <UserTable/>
+          </ProtectedRoute>,
+           errorElement: <ErrorPage/>,
+        },
+         { 
+          path: "donhang",
+          index: true,
+          element: 
+          <ProtectedRoute>
+          <DonHangTable/>
           </ProtectedRoute>,
            errorElement: <ErrorPage/>,
         },

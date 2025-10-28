@@ -10,8 +10,7 @@ const ViewDetailProduct =(props) =>{
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([])
     //
-    const {setViewDetailProduct,viewDetailProduct,setDataDetailProduct,dataDetailProduct
-    } = props
+    const {setViewDetailProduct,viewDetailProduct,setDataDetailProduct,dataDetailProduct} = props
     // console.log("check dataDetailBook>>>",dataDetailProduct)
     const onClose = () => {
         setViewDetailProduct(false);

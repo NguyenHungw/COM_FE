@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Button, Input, message, notification, Pagination, Popconfirm, Space, Table, Tag } from 'antd';
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined, RedoOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { Image } from 'antd';
 import InputSearch from './InputSearch';
@@ -92,6 +92,12 @@ const UserTable = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>Table List Users</span>
       <span style={{ display: 'flex', gap: 15 }}>
+             <div className='search-container' style={{display:'flex'}}>
+        <Input style={{width:500}}/>
+        <Button
+          icon={<SearchOutlined />}
+        />
+      </div>
           <Button
               icon={<ExportOutlined />}
               type="primary"
@@ -236,7 +242,7 @@ const columns = [
 
     return(
         <>
-        <InputSearch/>
+        {/* <InputSearch/> */}
             <Table
               title={renderHeader}
               columns={columns} 
